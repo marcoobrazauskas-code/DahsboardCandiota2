@@ -1,0 +1,1929 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dashboard · SE Candiota 2 Chimarrão · Engetecnica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;font-size:14px;background:#F4F5F7;color:#1A1A2E;min-height:100vh}
+
+/* ── TOPBAR ── */
+.topbar{background:#0D0D0C;height:44px;display:flex;align-items:center;padding:0 20px;justify-content:space-between}
+.topbar-left{display:flex;align-items:center;gap:10px}
+.et-badge{background:#E8560A;color:#fff;font-weight:800;font-size:13px;padding:4px 8px;border-radius:4px;letter-spacing:.5px}
+.topbar-brand{color:#fff;font-size:13px;font-weight:500}<br>.topbar-brand span{color:#E8560A;font-weight:700}
+.topbar-right{color:rgba(255,255,255,.45);font-size:11px;text-align:right;line-height:1.4}
+
+/* ── HERO ── */
+.hero{background:#fff;border-bottom:3px solid #E8560A;padding:16px 28px;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.hero-meta{font-size:10px;font-weight:700;color:#E8560A;letter-spacing:1.5px;margin-bottom:4px}
+.hero-title{font-size:26px;font-weight:800;color:#0D0D0C;line-height:1.1;letter-spacing:-.5px}
+.hero-sub{font-size:11px;color:#888;margin-top:3px;letter-spacing:.5px}
+.hero-date{text-align:right}
+.hero-date-label{font-size:9px;font-weight:700;letter-spacing:1.5px;color:#aaa;text-transform:uppercase}
+.hero-date-val{font-size:20px;font-weight:800;color:#0D0D0C;letter-spacing:-.5px}
+
+/* ── DISC COLOR BAR ── */
+.disc-bar{height:5px;display:flex}
+.disc-bar-civil{flex:111;background:#0D3FA8}
+.disc-bar-emec{flex:43;background:#0A6B2E}
+.disc-bar-elet{flex:14;background:#7A4F00}
+.disc-bar-com{flex:9;background:#5020C0}
+.disc-bar-energ{flex:2;background:#E8560A}
+
+/* ── KPI STRIP ── */
+.kpi-strip{background:#fff;border-bottom:1px solid #E8E9EC;display:flex;padding:0}
+.kpi-block{flex:1;padding:18px 24px;border-right:1px solid #E8E9EC;position:relative}
+.kpi-block:last-child{border-right:none}
+.kpi-label{font-size:10px;font-weight:700;letter-spacing:1px;color:#999;text-transform:uppercase;margin-bottom:4px}
+.kpi-val{font-size:36px;font-weight:800;line-height:1;letter-spacing:-1px}
+.kpi-sub{font-size:10px;font-weight:600;color:#bbb;margin-top:3px;text-transform:uppercase;letter-spacing:.5px}
+.kpi-total .kpi-val{color:#0D0D0C}
+.kpi-ong .kpi-val{color:#C89000}
+.kpi-pln .kpi-val{color:#0D3FA8}
+.kpi-lat .kpi-val{color:#B01A08}
+.kpi-conc .kpi-val{color:#1A7A08}
+
+/* ── TAB BAR ── */
+.tab-bar{background:#fff;border-bottom:2px solid #E8E9EC;display:flex;padding:0 20px;overflow-x:auto;position:sticky;top:0;z-index:99;gap:0}
+.tab{padding:14px 18px;font-size:12px;font-weight:600;color:#888;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .15s;letter-spacing:.3px;text-transform:uppercase}
+.tab:hover{color:#333}
+.tab.active{color:#E8560A;border-bottom-color:#E8560A}
+
+/* ── PANELS ── */
+.panel{display:none;min-height:400px}
+.panel.active{display:block}
+.panel-inner{padding:24px 28px}
+
+/* ── SECTION HEADER ── */
+.sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid #E8E9EC}
+.sec-title{font-size:11px;font-weight:700;letter-spacing:1.5px;color:#666;text-transform:uppercase}
+.print-btn{background:#E8560A;color:#fff;border:none;border-radius:6px;padding:7px 14px;font-size:11px;font-weight:700;cursor:pointer;letter-spacing:.5px;display:flex;align-items:center;gap:6px}
+.print-btn:hover{background:#C8440A}
+
+/* ── DISCIPLINE CARDS ── */
+.disc-cards{display:flex;gap:12px;margin-bottom:0;flex-wrap:wrap}
+.disc-card{background:#fff;border-radius:10px;border:2px solid #E8E9EC;padding:16px;flex:1;min-width:180px;cursor:pointer;transition:all .15s;position:relative}
+.disc-card:hover{border-color:#ccc;box-shadow:0 2px 12px rgba(0,0,0,.07)}
+.disc-card.open{border-color:var(--disc-color)}
+.disc-card-accent{position:absolute;top:0;left:0;right:0;height:4px;border-radius:8px 8px 0 0;background:var(--disc-color)}
+.disc-card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;margin-top:4px}
+.disc-card-name{font-size:14px;font-weight:700;color:#0D0D0C}
+.disc-count-badge{font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;white-space:nowrap}
+.disc-card-stats{display:flex;gap:12px;margin-top:8px;flex-wrap:wrap}
+.disc-stat{font-size:12px;font-weight:600;display:flex;align-items:center;gap:4px}
+.disc-stat-dot{width:7px;height:7px;border-radius:50%;display:inline-block;flex-shrink:0}
+.disc-toggle{font-size:11px;font-weight:700;color:var(--disc-color);margin-top:10px;display:flex;align-items:center;gap:4px;cursor:pointer}
+
+/* ── EXPANDED TABLE ── */
+.disc-table-wrap{background:#fff;border:1px solid #E8E9EC;border-radius:0 0 10px 10px;overflow:hidden;margin-bottom:16px;display:none}
+.disc-table-wrap.open{display:block}
+.disc-table-header{background:#0D3FA8;padding:10px 18px;display:flex;justify-content:space-between;align-items:center}
+.disc-table-header.civil{background:#0D3FA8}
+.disc-table-header.emec{background:#0A6B2E}
+.disc-table-header.elet{background:#7A4F00}
+.disc-table-header.com{background:#5020C0}
+.disc-table-header.energ{background:#E8560A}
+.disc-table-title{color:#fff;font-size:12px;font-weight:700;letter-spacing:.5px}
+.disc-table-sub{color:rgba(255,255,255,.7);font-size:11px}
+
+table{width:100%;border-collapse:collapse;font-size:13px}
+table th{background:#F8F9FB;padding:9px 14px;text-align:left;font-weight:700;font-size:10px;text-transform:uppercase;letter-spacing:.8px;color:#888;border-bottom:2px solid #E8E9EC;white-space:nowrap}
+table td{padding:9px 14px;border-bottom:1px solid #F0F1F3;vertical-align:middle}
+table tr:last-child td{border-bottom:none}
+table tr:hover td{background:#FAFBFC}
+
+/* ── TIMELINE GANTT CELLS (leves, 1 nó por célula) ── */
+td.tc{padding:0;height:23px;border-bottom:1px solid #EFEFEF;border-left:1px solid #F5F5F4;background-color:#fff;background-repeat:no-repeat,no-repeat;background-position:2px 4px,2px 10px;background-size:calc(100% - 4px) 5px,calc(100% - 4px) 9px;background-image:linear-gradient(var(--p,transparent),var(--p,transparent)),linear-gradient(var(--r,transparent),var(--r,transparent))}
+td.tp{--p:#9DB8D8}
+td.tro{--r:#E8560A}
+td.trg{--r:#1A7A08}
+td.trl{--r:#8B1A00}
+td.twk{background-color:#F5F5F4}
+td.ttd{background-color:#FFF5F0}
+table tr:hover td.tc{background-color:#FAFBFC}
+table tr:hover td.tc.twk{background-color:#F0F0EF}
+table tr:hover td.tc.ttd{background-color:#FFF0E8}
+.td-ativ{max-width:380px;word-break:break-word}
+.td-ativ-name{font-weight:500;color:#1A1A2E;font-size:13px}
+
+/* ── DURATION BAR ── */
+.dur-cell{display:flex;align-items:center;gap:8px;white-space:nowrap}
+.dur-num{font-size:12px;font-weight:700;color:#333;min-width:28px}
+.dur-bar-track{width:60px;height:4px;background:#E8E9EC;border-radius:2px;overflow:hidden}
+.dur-bar-fill{height:100%;border-radius:2px;background:#0D3FA8}
+
+/* ── STATUS BADGES ── */
+.sbadge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;white-space:nowrap}
+.sbadge-ongoing{background:#FFE490;color:#5A3A00}
+.sbadge-planned{background:#C8DAFF;color:#061A5C}
+.sbadge-late{background:#FFD8D3;color:#580800}
+.sbadge-concluded{background:#D4EDDA;color:#0A3A04}
+.sbadge-pending{background:#DDDDD8;color:#1A1A18}
+
+/* ── PRIO ── */
+.prio-dot{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;font-size:11px;font-weight:700}
+.prio-1{background:#FFD8D3;color:#B01A08}
+.prio-2{background:#FFE490;color:#7A4F00}
+.prio-3{background:#CEEEDB;color:#0A6B2E}
+.prio-4{background:#DDDDD8;color:#4A4A48}
+
+/* ── RESTAM ── */
+.restam{font-size:12px;font-weight:700}
+.restam-late{color:#B01A08}
+.restam-ok{color:#0A6B2E}
+.restam-soon{color:#7A4F00}
+
+/* ── PILLS ── */
+.pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.pill{padding:5px 14px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1.5px solid #DDD;color:#555;background:#fff;transition:all .15s;letter-spacing:.3px}
+.pill:hover{border-color:#E8560A;color:#E8560A}
+.pill.p-active{background:#E8560A;color:#fff;border-color:#E8560A}
+.pill.p-green.p-active{background:#0A6B2E;border-color:#0A6B2E}
+.pill.p-red.p-active{background:#B01A08;border-color:#B01A08}
+.pill.p-blue.p-active{background:#0D3FA8;border-color:#0D3FA8}
+.pill.p-dark.p-active{background:#1A7A08;border-color:#1A7A08}
+
+/* ── MODAL ── */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;align-items:center;justify-content:center}
+.modal-bg.open{display:flex}
+.modal{background:#fff;border-radius:12px;max-width:720px;width:95%;max-height:88vh;overflow-y:auto;box-shadow:0 24px 80px rgba(0,0,0,.25)}
+.modal-hdr{padding:18px 22px;border-bottom:1px solid #E8E9EC;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#fff;z-index:5}
+.modal-title{font-size:15px;font-weight:700}
+.modal-close{width:32px;height:32px;border-radius:50%;border:none;background:#F4F5F7;cursor:pointer;font-size:18px;line-height:1}
+.modal-body{padding:18px 22px}
+
+/* ── WEATHER ── */
+.weather-bar{display:flex;gap:8px;padding:14px;background:#fff;border-radius:10px;border:1px solid #E8E9EC;margin-bottom:18px;overflow-x:auto}
+.wday{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:80px;padding:10px 8px;border-radius:8px;background:#F8F9FB}
+.wday-name{font-size:10px;font-weight:700;color:#888;letter-spacing:.5px;text-transform:uppercase}
+.wday-icon{font-size:24px;line-height:1.2}
+.wday-temp{font-size:12px;font-weight:600;color:#333}
+.wday-rain{font-size:10px;color:#0D3FA8;font-weight:500}
+.wday.rain-warn{background:#FFF9E6}
+.wday.rain-alert{background:#FFF0EE}
+
+/* ── WEEK CARDS ── */
+.week-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.week-card{background:#fff;border-radius:10px;border:1.5px solid #E8E9EC;overflow:hidden;cursor:pointer;transition:all .15s}
+.week-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.08)}
+.week-card.curr{border-color:#E8560A}
+.week-card-hdr{padding:10px 14px;border-bottom:1px solid #F0F1F3;display:flex;justify-content:space-between;align-items:center;background:#FAFBFC}
+.week-card-title{font-size:12px;font-weight:700;color:#333}
+.week-curr-tag{font-size:9px;font-weight:800;color:#E8560A;letter-spacing:1px;text-transform:uppercase}
+.week-card-body{padding:12px 14px;display:flex;flex-direction:column;gap:5px}
+.week-row{display:flex;justify-content:space-between;align-items:center}
+.week-row-k{font-size:11px;color:#888;font-weight:500}
+.week-row-v{font-size:13px;font-weight:700;color:#333}
+.week-row-v.late{color:#B01A08}
+.week-row-v.ok{color:#0A6B2E}
+
+/* ── CALENDAR ── */
+.cal-wrap{background:#fff;border-radius:10px;border:1px solid #E8E9EC;overflow:hidden;margin-bottom:18px}
+.cal-hdr{background:#F8F9FB;padding:12px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #E8E9EC}
+.cal-nav-btn{padding:5px 14px;border:1.5px solid #DDD;border-radius:20px;background:#fff;cursor:pointer;font-size:12px;font-weight:600;transition:all .15s}
+.cal-nav-btn:hover{border-color:#E8560A}
+.cal-month-title{font-size:14px;font-weight:700;color:#0D0D0C}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr)}
+.cal-dname{padding:7px 4px;text-align:center;font-size:10px;font-weight:700;color:#888;background:#F8F9FB;border-right:1px solid #F0F1F3;border-bottom:1px solid #E8E9EC;letter-spacing:.5px}
+.cal-cell{min-height:76px;padding:4px 5px;border-right:1px solid #F0F1F3;border-bottom:1px solid #F0F1F3;position:relative;font-size:11px}
+.cal-cell:nth-child(7n){border-right:none}
+.cal-cell.empty{background:#FAFBFC}
+.cal-cell.weekend{background:#FAFBFC}
+.cal-cell.cal-today{background:#FFF5F0}
+.cal-day-num{font-size:11px;font-weight:700;color:#aaa;margin-bottom:2px}
+.cal-cell.cal-today .cal-day-num{color:#E8560A;font-weight:800}
+.cal-pill{font-size:9px;padding:1px 5px;border-radius:6px;margin-bottom:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer;font-weight:600}
+
+/* ── DAY NAV ── */
+.day-nav{display:flex;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap;background:#fff;padding:12px 16px;border-radius:10px;border:1px solid #E8E9EC}
+.day-nav-btn{padding:6px 14px;border:1.5px solid #DDD;border-radius:20px;background:#fff;cursor:pointer;font-size:12px;font-weight:600;transition:all .15s}
+.day-nav-btn:hover{border-color:#E8560A}
+.day-cur{font-size:15px;font-weight:700;flex:1}
+.day-pos{font-size:10px;font-weight:700;padding:3px 9px;border-radius:10px;background:#C8DAFF;color:#061A5C}
+
+/* ── WA ── */
+.wa-hdr{background:#0D0D0C;border-radius:10px;padding:16px 18px;margin-bottom:16px}
+.wa-date-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.wa-date-big{font-size:18px;font-weight:800;color:#E8560A}
+.wa-pills-row{display:flex;gap:6px}
+.wa-pill{padding:5px 12px;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;border:1.5px solid rgba(255,255,255,.2);color:rgba(255,255,255,.6);background:transparent;transition:all .15s}
+.wa-pill:hover{border-color:#E8560A;color:#E8560A}
+.wa-pill.wa-active{background:#E8560A;color:#fff;border-color:#E8560A}
+.wa-copy{padding:8px 18px;background:#E8560A;color:#fff;border:none;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;transition:opacity .15s}
+.wa-copy:hover{opacity:.85}
+.wa-date-input{padding:5px 10px;border:1.5px solid rgba(255,255,255,.2);border-radius:20px;background:transparent;color:#fff;font-size:11px;font-family:'Inter',sans-serif;width:130px}
+.wa-text{font-family:'Courier New',monospace;font-size:12px;line-height:1.7;background:#fff;border-radius:8px;padding:14px;border:1px solid #E8E9EC;white-space:pre-wrap;word-break:break-word;max-height:420px;overflow-y:auto}
+
+/* ── IT CALENDAR ── */
+.it-marker{font-size:11px;font-weight:800;text-align:center;line-height:1.2;cursor:pointer}
+.it-span{height:4px;border-radius:2px;margin:1px 0;cursor:pointer}
+
+/* ── RESTRICAO ── */
+.restric-group-hdr{padding:8px 14px;border-radius:8px;font-size:11px;font-weight:700;margin-bottom:8px;letter-spacing:.5px}
+.restric-card{background:#fff;border-radius:8px;border:1px solid #E8E9EC;padding:12px 14px;margin-bottom:8px;border-left:4px solid #DDD}
+.restric-card.mat{border-left-color:#0D3FA8}
+.restric-card.eqp{border-left-color:#7A4F00}
+.restric-card.rec{border-left-color:#0A6B2E}
+.restric-card.out{border-left-color:#E8560A}
+
+footer{text-align:center;padding:24px;font-size:11px;color:#aaa;border-top:1px solid #E8E9EC;background:#fff;margin-top:24px;letter-spacing:.3px}
+
+@media(max-width:700px){
+  .hero{padding:12px 16px}
+  .hero-title{font-size:18px}
+  .kpi-val{font-size:26px}
+  .kpi-block{padding:12px 14px}
+  .panel-inner{padding:14px 12px}
+  .disc-cards{flex-direction:column}
+  .tab{font-size:10px;padding:10px 10px}
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="et-badge">ET</span>
+    <span class="topbar-brand"><span>ENGETECNICA</span> Engenharia e Construção</span>
+  </div>
+  <div class="topbar-right">
+    SE CANDIOTA 2 · CHIMARRÃO<br>
+    DASHBOARD DE CAMPO
+  </div>
+</div>
+
+<!-- DISC COLOR BAR -->
+<div class="disc-bar">
+  <div class="disc-bar-civil"></div>
+  <div class="disc-bar-emec"></div>
+  <div class="disc-bar-elet"></div>
+  <div class="disc-bar-com"></div>
+  <div class="disc-bar-energ"></div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div>
+    <div class="hero-meta">CRO · PLANO DE AÇÃO · ACOMPANHAMENTO DE CAMPO</div>
+    <div class="hero-title">SE CANDIOTA 2 — CHIMARRÃO</div>
+    <div class="hero-sub">ATIVIDADES POR DISCIPLINA · CIVIL · EMEC · ELÉTRICA · COMISSIONAMENTO · ENERGIZAÇÃO</div>
+  </div>
+  <div class="hero-date">
+    <div class="hero-date-label">ATUALIZADO EM</div>
+    <div class="hero-date-val" id="hero-date"></div>
+  </div>
+</div>
+
+<!-- KPI STRIP -->
+<div class="kpi-strip" id="kpi-strip"></div>
+
+<!-- TAB BAR -->
+<div class="tab-bar">
+  <div class="tab active" onclick="swTab('disciplinas',this)">Disciplinas</div>
+  <div class="tab" onclick="swTab('timeline',this)">Timeline</div>
+  <div class="tab" onclick="swTab('semanas',this)">Por Semana</div>
+  <div class="tab" onclick="swTab('datatermino',this)">📆 Data Término</div>
+  <div class="tab" onclick="swTab('iniciotermino',this)">📊 Início / Término</div>
+  <div class="tab" onclick="swTab('restricoes',this)">⚠️ Restrições</div>
+  <div class="tab" onclick="swTab('whatsapp',this)">📱 WhatsApp</div>
+  <div class="tab" onclick="swTab('indicadores',this)">📈 Indicadores</div>
+</div>
+
+<!-- PANELS -->
+<div id="indicadores" class="panel"><div class="panel-inner" id="ind-inner"></div></div>
+<div id="disciplinas" class="panel active"><div class="panel-inner" id="disc-inner"></div></div>
+<div id="timeline"    class="panel"><div class="panel-inner" id="tl-inner"></div></div>
+<div id="semanas"     class="panel"><div class="panel-inner" id="sem-inner"></div></div>
+<div id="datatermino" class="panel"><div class="panel-inner" id="dt-inner"></div></div>
+<div id="iniciotermino" class="panel"><div class="panel-inner" id="it-inner"></div></div>
+<div id="restricoes"  class="panel"><div class="panel-inner" id="rest-inner"></div></div>
+<div id="whatsapp"    class="panel"><div class="panel-inner" id="wa-inner"></div></div>
+
+<!-- MODAL -->
+<div class="modal-bg" id="modal-bg" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal">
+    <div class="modal-hdr">
+      <span class="modal-title" id="modal-title"></span>
+      <button class="modal-close" onclick="document.getElementById('modal-bg').classList.remove('open')">×</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<footer>SE Candiota 2 - Projeto Chimarrão · Engetecnica Engenharia e Construção · 2026 — Dashboard de Campo</footer>
+
+<script>
+// ═══════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════
+const ACTS = [{"disc": "CIVIL", "prio": 1, "grupo": "Mobilização", "ativ": "Mobilização - Mobilização Inicial", "start": "2026-05-25", "end": "2026-06-23", "dur": 30, "real_start": "2026-05-25", "real_end": "2026-06-23", "restric": "", "progress": {}, "parent": "Mobilização"}, {"disc": "CIVIL", "prio": 1, "grupo": "Mobilização", "ativ": "Mobilização - Mobilização Completa - Canteiro", "start": "2026-05-25", "end": "2026-07-20", "dur": 57, "real_start": "2026-05-25", "real_end": null, "restric": "", "progress": {}, "parent": "Mobilização"}, {"disc": "CIVIL", "prio": 1, "grupo": "Terraplenagem", "ativ": "Terraplenagem", "start": "2026-05-25", "end": "2026-09-21", "dur": 120, "real_start": "2026-05-25", "real_end": null, "restric": "", "progress": {}, "parent": null}, {"disc": "CIVIL", "prio": 1, "grupo": "Terraplenagem", "ativ": "Terraplenagem - Conclusão da Supressão Vegetal", "start": "2026-05-25", "end": "2026-06-22", "dur": 29, "real_start": "2026-05-25", "real_end": "2026-06-22", "restric": "", "progress": {}, "parent": "Terraplenagem"}, {"disc": "CIVIL", "prio": 1, "grupo": "Terraplenagem", "ativ": "Terraplenagem - Conclusão do Corte", "start": "2026-06-23", "end": "2026-08-24", "dur": 63, "real_start": "2026-06-23", "real_end": null, "restric": "", "progress": {}, "parent": "Terraplenagem"}, {"disc": "CIVIL", "prio": 1, "grupo": "Terraplenagem", "ativ": "Terraplenagem - Conclusão da Compactação", "start": "2026-07-02", "end": "2026-09-02", "dur": 63, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Terraplenagem"}, {"disc": "CIVIL", "prio": 1, "grupo": "Terraplenagem", "ativ": "Terraplenagem - Conclusão dos Acabamentos e Taludes", "start": "2026-07-20", "end": "2026-09-21", "dur": 64, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Terraplenagem"}, {"disc": "CIVIL", "prio": 1, "grupo": "Fundação Pórticos", "ativ": "Fundação dos Pórticos", "start": "2026-07-20", "end": "2026-09-23", "dur": 66, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": null}, {"disc": "CIVIL", "prio": 1, "grupo": "Fundação Pórticos", "ativ": "Fundação dos Pórticos - Conclusão da Armação", "start": "2026-07-20", "end": "2026-08-14", "dur": 26, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Fundação dos Pórticos"}, {"disc": "CIVIL", "prio": 1, "grupo": "Fundação Pórticos", "ativ": "Fundação dos Pórticos - Conclusão da Escavação", "start": "2026-08-03", "end": "2026-09-14", "dur": 43, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Fundação dos Pórticos"}, {"disc": "CIVIL", "prio": 1, "grupo": "Fundação Pórticos", "ativ": "Fundação dos Pórticos - Conclusão da Concretagem", "start": "2026-08-10", "end": "2026-09-21", "dur": 43, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Fundação dos Pórticos"}, {"disc": "CIVIL", "prio": 1, "grupo": "Fundação Pórticos", "ativ": "Fundação dos Pórticos - Conclusão de Reaterro", "start": "2026-08-12", "end": "2026-09-23", "dur": 43, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Fundação dos Pórticos"}, {"disc": "CIVIL", "prio": 1, "grupo": "Fundação Equipamentos", "ativ": "Fundação Disjuntor", "start": "2026-09-15", "end": "2026-10-19", "dur": 35, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": null}, {"disc": "CIVIL", "prio": 1, "grupo": "Fundação Equipamentos", "ativ": "Fundação Disjuntor - Conclusão da Armação", "start": "2026-09-15", "end": "2026-10-13", "dur": 29, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Fundação Disjuntor"}, {"disc": "CIVIL", "prio": 1, "grupo": "Fundação Equipamentos", "ativ": "Fundação Disjuntor - Conclusão da Escavação", "start": "2026-09-17", "end": "2026-10-15", "dur": 29, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Fundação Disjuntor"}, {"disc": "CIVIL", "prio": 1, "grupo": "Fundação Equipamentos", "ativ": "Fundação Disjuntor - Conclusão da Concretagem e Reaterro", "start": "2026-09-21", "end": "2026-10-19", "dur": 29, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Fundação Disjuntor"}, {"disc": "CIVIL", "prio": 1, "grupo": "Fundação Equipamentos", "ativ": "Fundação Seccionador", "start": "2026-10-14", "end": "2026-11-17", "dur": 35, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": null}, {"disc": "CIVIL", "prio": 1, "grupo": "Fundação Equipamentos", "ativ": "Fundação Seccionador - Conclusão da Armação", "start": "2026-10-14", "end": "2026-11-11", "dur": 29, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Fundação Seccionador"}, {"disc": "CIVIL", "prio": 1, "grupo": "Fundação Equipamentos", "ativ": "Fundação Seccionador - Conclusão da Escavação", "start": "2026-10-16", "end": "2026-11-13", "dur": 29, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Fundação Seccionador"}, {"disc": "CIVIL", "prio": 1, "grupo": "Fundação Equipamentos", "ativ": "Fundação Seccionador - Conclusão da Concretagem e Reaterro", "start": "2026-10-20", "end": "2026-11-17", "dur": 29, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Fundação Seccionador"}, {"disc": "CIVIL", "prio": 1, "grupo": "Fundação Equipamentos", "ativ": "Fundação Isolador Pedestal", "start": "2026-10-14", "end": "2026-11-17", "dur": 35, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": null}, {"disc": "CIVIL", "prio": 1, "grupo": "Fundação Equipamentos", "ativ": "Fundação Isolador Pedestal - Conclusão da Armação", "start": "2026-10-14", "end": "2026-11-04", "dur": 22, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Fundação Isolador Pedestal"}, {"disc": "CIVIL", "prio": 1, "grupo": "Fundação Equipamentos", "ativ": "Fundação Isolador Pedestal - Conclusão da Escavação", "start": "2026-10-16", "end": "2026-11-13", "dur": 29, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Fundação Isolador Pedestal"}, {"disc": "CIVIL", "prio": 1, "grupo": "Fundação Equipamentos", "ativ": "Fundação Isolador Pedestal - Conclusão da Concretagem e Reaterro", "start": "2026-10-20", "end": "2026-11-17", "dur": 29, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Fundação Isolador Pedestal"}, {"disc": "CIVIL", "prio": 1, "grupo": "Fundação Equipamentos", "ativ": "Fundação Para-Raio", "start": "2026-11-05", "end": "2026-12-10", "dur": 36, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": null}, {"disc": "CIVIL", "prio": 1, "grupo": "Fundação Equipamentos", "ativ": "Fundação Para-Raio - Conclusão da Armação", "start": "2026-11-05", "end": "2026-11-26", "dur": 22, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Fundação Para-Raio"}, {"disc": "CIVIL", "prio": 1, "grupo": "Fundação Equipamentos", "ativ": "Fundação Para-Raio - Conclusão da Escavação", "start": "2026-11-10", "end": "2026-12-08", "dur": 29, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Fundação Para-Raio"}, {"disc": "CIVIL", "prio": 1, "grupo": "Fundação Equipamentos", "ativ": "Fundação Para-Raio - Conclusão da Concretagem e Reaterro", "start": "2026-11-12", "end": "2026-12-10", "dur": 29, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Fundação Para-Raio"}, {"disc": "CIVIL", "prio": 1, "grupo": "Fundação Equipamentos", "ativ": "Fundação Transformador de Corrente", "start": "2026-11-12", "end": "2027-01-06", "dur": 56, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": null}, {"disc": "CIVIL", "prio": 1, "grupo": "Fundação Equipamentos", "ativ": "Fundação TC - Conclusão da Armação", "start": "2026-11-12", "end": "2026-12-10", "dur": 29, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Fundação Transformador de Corrente"}, {"disc": "CIVIL", "prio": 1, "grupo": "Fundação Equipamentos", "ativ": "Fundação TC - Conclusão da Escavação", "start": "2026-11-16", "end": "2026-12-14", "dur": 29, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Fundação Transformador de Corrente"}, {"disc": "CIVIL", "prio": 1, "grupo": "Fundação Equipamentos", "ativ": "Fundação TC - Conclusão da Concretagem e Reaterro", "start": "2026-11-24", "end": "2027-01-06", "dur": 44, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Fundação Transformador de Corrente"}, {"disc": "CIVIL", "prio": 1, "grupo": "Fundação Reatores", "ativ": "Fundação Reatores", "start": "2026-08-03", "end": "2026-10-27", "dur": 86, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": null}, {"disc": "CIVIL", "prio": 1, "grupo": "Fundação Reatores", "ativ": "Reator 1 - Conclusão da Armação Bloco", "start": "2026-08-03", "end": "2026-08-14", "dur": 12, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Fundação Reatores"}, {"disc": "CIVIL", "prio": 1, "grupo": "Fundação Reatores", "ativ": "Reator 2 - Conclusão da Armação Bloco", "start": "2026-08-17", "end": "2026-08-28", "dur": 12, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Fundação Reatores"}, {"disc": "CIVIL", "prio": 1, "grupo": "Fundação Reatores", "ativ": "Reator 3 - Conclusão da Armação Bloco", "start": "2026-08-31", "end": "2026-09-14", "dur": 15, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Fundação Reatores"}, {"disc": "CIVIL", "prio": 1, "grupo": "Fundação Reatores", "ativ": "Reator 4 - Conclusão da Armação Bloco", "start": "2026-09-15", "end": "2026-09-28", "dur": 14, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Fundação Reatores"}, {"disc": "CIVIL", "prio": 1, "grupo": "Fundação Reatores", "ativ": "Reator 1 - Conclusão da Escavação Bloco", "start": "2026-08-17", "end": "2026-08-28", "dur": 12, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Fundação Reatores"}, {"disc": "CIVIL", "prio": 1, "grupo": "Fundação Reatores", "ativ": "Reator 2 - Conclusão da Escavação Bloco", "start": "2026-08-31", "end": "2026-09-14", "dur": 15, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Fundação Reatores"}, {"disc": "CIVIL", "prio": 1, "grupo": "Fundação Reatores", "ativ": "Reator 3 - Conclusão da Escavação Bloco", "start": "2026-09-15", "end": "2026-09-28", "dur": 14, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Fundação Reatores"}, {"disc": "CIVIL", "prio": 1, "grupo": "Fundação Reatores", "ativ": "Reator 4 - Conclusão da Escavação Bloco", "start": "2026-09-29", "end": "2026-10-13", "dur": 15, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Fundação Reatores"}, {"disc": "CIVIL", "prio": 1, "grupo": "Fundação Reatores", "ativ": "Reator 1 - Conclusão da Concretagem Bloco", "start": "2026-08-31", "end": "2026-09-14", "dur": 15, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Fundação Reatores"}, {"disc": "CIVIL", "prio": 1, "grupo": "Fundação Reatores", "ativ": "Reator 2 - Conclusão da Concretagem Bloco", "start": "2026-09-15", "end": "2026-09-28", "dur": 14, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Fundação Reatores"}, {"disc": "CIVIL", "prio": 1, "grupo": "Fundação Reatores", "ativ": "Reator 3 - Conclusão da Concretagem Bloco", "start": "2026-09-29", "end": "2026-10-13", "dur": 15, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Fundação Reatores"}, {"disc": "CIVIL", "prio": 1, "grupo": "Fundação Reatores", "ativ": "Reator 4 - Conclusão da Concretagem Bloco", "start": "2026-10-14", "end": "2026-10-27", "dur": 14, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Fundação Reatores"}, {"disc": "CIVIL", "prio": 1, "grupo": "Bacia Reatores", "ativ": "Bacia Reatores", "start": "2026-10-19", "end": "2027-01-28", "dur": 102, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": null}, {"disc": "CIVIL", "prio": 1, "grupo": "Bacia Reatores", "ativ": "Bacia Reator 1 - Conclusão Armação Laje", "start": "2026-10-19", "end": "2026-10-23", "dur": 5, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Bacia Reatores"}, {"disc": "CIVIL", "prio": 1, "grupo": "Bacia Reatores", "ativ": "Bacia Reator 2 - Conclusão Armação Laje", "start": "2026-10-26", "end": "2026-10-30", "dur": 5, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Bacia Reatores"}, {"disc": "CIVIL", "prio": 1, "grupo": "Bacia Reatores", "ativ": "Bacia Reator 3 - Conclusão Armação Laje", "start": "2026-11-03", "end": "2026-11-09", "dur": 7, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Bacia Reatores"}, {"disc": "CIVIL", "prio": 1, "grupo": "Bacia Reatores", "ativ": "Bacia Reator 4 - Conclusão Armação Laje", "start": "2026-11-10", "end": "2026-11-16", "dur": 7, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Bacia Reatores"}, {"disc": "CIVIL", "prio": 1, "grupo": "Bacia Reatores", "ativ": "Bacia Reator 1 - Conclusão Escavação Laje", "start": "2026-10-29", "end": "2026-11-06", "dur": 9, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Bacia Reatores"}, {"disc": "CIVIL", "prio": 1, "grupo": "Bacia Reatores", "ativ": "Bacia Reator 2 - Conclusão Escavação Laje", "start": "2026-11-04", "end": "2026-11-11", "dur": 8, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Bacia Reatores"}, {"disc": "CIVIL", "prio": 1, "grupo": "Bacia Reatores", "ativ": "Bacia Reator 3 - Conclusão Escavação Laje", "start": "2026-12-01", "end": "2026-12-08", "dur": 8, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Bacia Reatores"}, {"disc": "CIVIL", "prio": 1, "grupo": "Bacia Reatores", "ativ": "Bacia Reator 4 - Conclusão Escavação Laje", "start": "2026-12-09", "end": "2026-12-16", "dur": 8, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Bacia Reatores"}, {"disc": "CIVIL", "prio": 1, "grupo": "Bacia Reatores", "ativ": "Bacia Reator 1 - Conclusão Concretagem Laje", "start": "2026-11-03", "end": "2026-11-10", "dur": 8, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Bacia Reatores"}, {"disc": "CIVIL", "prio": 1, "grupo": "Bacia Reatores", "ativ": "Bacia Reator 2 - Conclusão Concretagem Laje", "start": "2026-11-06", "end": "2026-11-13", "dur": 8, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Bacia Reatores"}, {"disc": "CIVIL", "prio": 1, "grupo": "Bacia Reatores", "ativ": "Bacia Reator 3 - Conclusão Concretagem Laje", "start": "2026-12-03", "end": "2026-12-10", "dur": 8, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Bacia Reatores"}, {"disc": "CIVIL", "prio": 1, "grupo": "Bacia Reatores", "ativ": "Bacia Reator 4 - Conclusão Concretagem Laje", "start": "2026-12-11", "end": "2026-12-18", "dur": 8, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Bacia Reatores"}, {"disc": "CIVIL", "prio": 1, "grupo": "Bacia Reatores", "ativ": "Bacia Reator 1 - Conclusão Alvenaria", "start": "2026-11-05", "end": "2026-11-12", "dur": 8, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Bacia Reatores"}, {"disc": "CIVIL", "prio": 1, "grupo": "Bacia Reatores", "ativ": "Bacia Reator 2 - Conclusão Alvenaria", "start": "2026-11-10", "end": "2026-11-17", "dur": 8, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Bacia Reatores"}, {"disc": "CIVIL", "prio": 1, "grupo": "Bacia Reatores", "ativ": "Bacia Reator 3 - Conclusão Alvenaria", "start": "2026-12-07", "end": "2026-12-14", "dur": 8, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Bacia Reatores"}, {"disc": "CIVIL", "prio": 1, "grupo": "Bacia Reatores", "ativ": "Bacia Reator 4 - Conclusão Alvenaria", "start": "2026-12-15", "end": "2027-01-07", "dur": 24, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Bacia Reatores"}, {"disc": "CIVIL", "prio": 1, "grupo": "Bacia Reatores", "ativ": "Bacia Reatores - Conclusão Brita", "start": "2027-01-08", "end": "2027-01-28", "dur": 21, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Bacia Reatores"}, {"disc": "CIVIL", "prio": 2, "grupo": "Parede Corta-Fogo", "ativ": "Parede Corta-Fogo", "start": "2026-09-29", "end": "2026-11-30", "dur": 63, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": null}, {"disc": "CIVIL", "prio": 2, "grupo": "Parede Corta-Fogo", "ativ": "PCF 1 - Conclusão Armação Fundação", "start": "2026-09-29", "end": "2026-10-05", "dur": 7, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Parede Corta-Fogo"}, {"disc": "CIVIL", "prio": 2, "grupo": "Parede Corta-Fogo", "ativ": "PCF 2 - Conclusão Armação Fundação", "start": "2026-10-05", "end": "2026-10-09", "dur": 5, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Parede Corta-Fogo"}, {"disc": "CIVIL", "prio": 2, "grupo": "Parede Corta-Fogo", "ativ": "PCF 3 - Conclusão Armação Fundação", "start": "2026-10-09", "end": "2026-10-16", "dur": 8, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Parede Corta-Fogo"}, {"disc": "CIVIL", "prio": 2, "grupo": "Parede Corta-Fogo", "ativ": "PCF 1 - Conclusão Escavação Fundação", "start": "2026-10-06", "end": "2026-10-13", "dur": 8, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Parede Corta-Fogo"}, {"disc": "CIVIL", "prio": 2, "grupo": "Parede Corta-Fogo", "ativ": "PCF 2 - Conclusão Escavação Fundação", "start": "2026-10-20", "end": "2026-10-26", "dur": 7, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Parede Corta-Fogo"}, {"disc": "CIVIL", "prio": 2, "grupo": "Parede Corta-Fogo", "ativ": "PCF 3 - Conclusão Escavação Fundação", "start": "2026-11-04", "end": "2026-11-10", "dur": 7, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Parede Corta-Fogo"}, {"disc": "CIVIL", "prio": 2, "grupo": "Parede Corta-Fogo", "ativ": "PCF 1 - Conclusão Concretagem e Reaterro", "start": "2026-10-14", "end": "2026-10-20", "dur": 7, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Parede Corta-Fogo"}, {"disc": "CIVIL", "prio": 2, "grupo": "Parede Corta-Fogo", "ativ": "PCF 2 - Conclusão Concretagem e Reaterro", "start": "2026-10-27", "end": "2026-11-03", "dur": 8, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Parede Corta-Fogo"}, {"disc": "CIVIL", "prio": 2, "grupo": "Parede Corta-Fogo", "ativ": "PCF 3 - Conclusão Concretagem e Reaterro", "start": "2026-11-11", "end": "2026-11-17", "dur": 7, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Parede Corta-Fogo"}, {"disc": "CIVIL", "prio": 2, "grupo": "Parede Corta-Fogo", "ativ": "PCF 1 - Instalação da Parede Corta-Fogo Pré-Moldada", "start": "2026-10-21", "end": "2026-10-28", "dur": 8, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Parede Corta-Fogo"}, {"disc": "CIVIL", "prio": 2, "grupo": "Parede Corta-Fogo", "ativ": "PCF 2 - Instalação da Parede Corta-Fogo Pré-Moldada", "start": "2026-11-05", "end": "2026-11-12", "dur": 8, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Parede Corta-Fogo"}, {"disc": "CIVIL", "prio": 2, "grupo": "Parede Corta-Fogo", "ativ": "PCF 3 - Instalação da Parede Corta-Fogo Pré-Moldada", "start": "2026-11-23", "end": "2026-11-30", "dur": 8, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Parede Corta-Fogo"}, {"disc": "CIVIL", "prio": 2, "grupo": "Fundação SPDA", "ativ": "Fundação SPDA", "start": "2026-08-17", "end": "2026-09-24", "dur": 39, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": null}, {"disc": "CIVIL", "prio": 2, "grupo": "Fundação SPDA", "ativ": "Fundação SPDA - Conclusão da Armação", "start": "2026-08-17", "end": "2026-09-14", "dur": 29, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Fundação SPDA"}, {"disc": "CIVIL", "prio": 2, "grupo": "Fundação SPDA", "ativ": "Fundação SPDA - Conclusão da Escavação", "start": "2026-08-21", "end": "2026-09-18", "dur": 29, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Fundação SPDA"}, {"disc": "CIVIL", "prio": 2, "grupo": "Fundação SPDA", "ativ": "Fundação SPDA - Conclusão da Concretagem e Reaterro", "start": "2026-08-27", "end": "2026-09-24", "dur": 29, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Fundação SPDA"}, {"disc": "CIVIL", "prio": 2, "grupo": "Drenagem Pluvial", "ativ": "Sistema de Drenagem - Caixas de Passagem", "start": "2026-09-22", "end": "2026-11-30", "dur": 70, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": null}, {"disc": "CIVIL", "prio": 2, "grupo": "Drenagem Pluvial", "ativ": "Caixas de Passagem - Conclusão Montagem", "start": "2026-09-22", "end": "2026-11-18", "dur": 58, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Sistema de Drenagem - Caixas de Passagem"}, {"disc": "CIVIL", "prio": 2, "grupo": "Drenagem Pluvial", "ativ": "Caixas de Passagem - Conclusão Concretagem", "start": "2026-09-25", "end": "2026-11-24", "dur": 61, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Sistema de Drenagem - Caixas de Passagem"}, {"disc": "CIVIL", "prio": 2, "grupo": "Drenagem Pluvial", "ativ": "Caixas de Passagem - Conclusão Reaterro", "start": "2026-09-29", "end": "2026-11-26", "dur": 59, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Sistema de Drenagem - Caixas de Passagem"}, {"disc": "CIVIL", "prio": 2, "grupo": "Drenagem Pluvial", "ativ": "Caixas de Passagem - Conclusão das Tampas", "start": "2026-10-01", "end": "2026-11-30", "dur": 61, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Sistema de Drenagem - Caixas de Passagem"}, {"disc": "CIVIL", "prio": 2, "grupo": "Drenagem Pluvial", "ativ": "Linhas de Dreno - Conclusão Escavação", "start": "2026-09-22", "end": "2026-11-26", "dur": 66, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Sistema de Drenagem - Caixas de Passagem"}, {"disc": "CIVIL", "prio": 2, "grupo": "Drenagem Pluvial", "ativ": "Linhas de Dreno - Conclusão Colocação do Tubo", "start": "2026-09-25", "end": "2026-12-01", "dur": 68, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Sistema de Drenagem - Caixas de Passagem"}, {"disc": "CIVIL", "prio": 2, "grupo": "Drenagem Pluvial", "ativ": "Caixa Separadora - Conclusão Escavação e Montagem", "start": "2026-08-31", "end": "2026-10-13", "dur": 44, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Sistema de Drenagem - Caixas de Passagem"}, {"disc": "CIVIL", "prio": 2, "grupo": "Drenagem Pluvial", "ativ": "Caixa Separadora - Conclusão Concretagem", "start": "2026-10-14", "end": "2026-12-03", "dur": 51, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Sistema de Drenagem - Caixas de Passagem"}, {"disc": "CIVIL", "prio": 2, "grupo": "Drenagem Pluvial", "ativ": "Caixa Separadora - Conclusão Reaterro", "start": "2026-12-04", "end": "2027-01-18", "dur": 46, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Sistema de Drenagem - Caixas de Passagem"}, {"disc": "CIVIL", "prio": 2, "grupo": "Drenagem Pluvial", "ativ": "Caixa Separadora - Conclusão Teste Estanqueidade", "start": "2027-01-18", "end": "2027-02-02", "dur": 16, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Sistema de Drenagem - Caixas de Passagem"}, {"disc": "CIVIL", "prio": 2, "grupo": "Canaleta Simples", "ativ": "Canaleta Simples", "start": "2026-09-22", "end": "2026-12-09", "dur": 79, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": null}, {"disc": "CIVIL", "prio": 2, "grupo": "Canaleta Simples", "ativ": "Canaleta Simples - Conclusão Escavação", "start": "2026-09-22", "end": "2026-11-18", "dur": 58, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Canaleta Simples"}, {"disc": "CIVIL", "prio": 2, "grupo": "Canaleta Simples", "ativ": "Canaleta Simples - Conclusão Fundo de Cava / Laje", "start": "2026-09-24", "end": "2026-11-23", "dur": 61, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Canaleta Simples"}, {"disc": "CIVIL", "prio": 2, "grupo": "Canaleta Simples", "ativ": "Canaleta Simples - Conclusão Alvenaria", "start": "2026-09-28", "end": "2026-11-25", "dur": 59, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Canaleta Simples"}, {"disc": "CIVIL", "prio": 2, "grupo": "Canaleta Simples", "ativ": "Canaleta Simples - Conclusão Tampas e Acabamentos", "start": "2026-10-13", "end": "2026-12-09", "dur": 58, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Canaleta Simples"}, {"disc": "CIVIL", "prio": 2, "grupo": "Canaleta Reforçada", "ativ": "Canaleta Reforçada", "start": "2026-09-22", "end": "2026-12-02", "dur": 72, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": null}, {"disc": "CIVIL", "prio": 2, "grupo": "Canaleta Reforçada", "ativ": "Canaleta Reforçada - Conclusão Escavação", "start": "2026-09-22", "end": "2026-10-27", "dur": 36, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Canaleta Reforçada"}, {"disc": "CIVIL", "prio": 2, "grupo": "Canaleta Reforçada", "ativ": "Canaleta Reforçada - Conclusão Armação", "start": "2026-09-24", "end": "2026-10-29", "dur": 36, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Canaleta Reforçada"}, {"disc": "CIVIL", "prio": 2, "grupo": "Canaleta Reforçada", "ativ": "Canaleta Reforçada - Conclusão Fundo de Cava / Laje", "start": "2026-09-24", "end": "2026-10-29", "dur": 36, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Canaleta Reforçada"}, {"disc": "CIVIL", "prio": 2, "grupo": "Canaleta Reforçada", "ativ": "Canaleta Reforçada - Conclusão Alvenaria", "start": "2026-09-28", "end": "2026-11-03", "dur": 37, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Canaleta Reforçada"}, {"disc": "CIVIL", "prio": 2, "grupo": "Canaleta Reforçada", "ativ": "Canaleta Reforçada - Conclusão Tampas e Acabamentos", "start": "2026-10-13", "end": "2026-12-02", "dur": 51, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Canaleta Reforçada"}, {"disc": "CIVIL", "prio": 2, "grupo": "Canaleta Reforçada", "ativ": "Encaminhamento (Eletrodutos) - Conclusão Escavação", "start": "2026-10-20", "end": "2026-12-02", "dur": 44, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Canaleta Reforçada"}, {"disc": "CIVIL", "prio": 2, "grupo": "Canaleta Reforçada", "ativ": "Encaminhamento (Eletrodutos) - Conclusão Lançamento Dutos", "start": "2026-10-27", "end": "2026-12-09", "dur": 44, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Canaleta Reforçada"}, {"disc": "CIVIL", "prio": 3, "grupo": "Urbanização", "ativ": "Urbanização", "start": "2026-12-16", "end": "2027-05-19", "dur": 155, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": null}, {"disc": "CIVIL", "prio": 3, "grupo": "Urbanização", "ativ": "Urbanização - Conclusão Britamento do Pátio", "start": "2026-12-16", "end": "2027-02-15", "dur": 62, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Urbanização"}, {"disc": "CIVIL", "prio": 3, "grupo": "Urbanização", "ativ": "Urbanização - Conclusão Pavimentação e Acabamentos", "start": "2027-01-25", "end": "2027-03-22", "dur": 57, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Urbanização"}, {"disc": "CIVIL", "prio": 3, "grupo": "Urbanização", "ativ": "Urbanização - Conclusão Abrigo de Combate a Incêndio", "start": "2027-02-15", "end": "2027-03-19", "dur": 33, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Urbanização"}, {"disc": "CIVIL", "prio": 3, "grupo": "Urbanização", "ativ": "Urbanização - Conclusão Iluminação de Pátio", "start": "2027-02-15", "end": "2027-03-29", "dur": 43, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Urbanização"}, {"disc": "CIVIL", "prio": 3, "grupo": "Urbanização", "ativ": "Urbanização - Conclusão Cercas", "start": "2027-03-23", "end": "2027-05-19", "dur": 58, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Urbanização"}, {"disc": "EMEC", "prio": 1, "grupo": "Pórticos", "ativ": "Montagem dos Pórticos", "start": "2026-08-26", "end": "2026-09-30", "dur": 36, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": null}, {"disc": "EMEC", "prio": 1, "grupo": "Pórticos", "ativ": "Montagem dos Pórticos - Conclusão Montagem", "start": "2026-08-26", "end": "2026-09-30", "dur": 36, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Montagem dos Pórticos"}, {"disc": "EMEC", "prio": 1, "grupo": "Blindagem", "ativ": "Blindagem - Postes SPDA e Cabo Aço", "start": "2026-09-18", "end": "2026-11-06", "dur": 50, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": null}, {"disc": "EMEC", "prio": 1, "grupo": "Blindagem", "ativ": "Blindagem - Montagem Postes SPDA", "start": "2026-09-18", "end": "2026-10-16", "dur": 29, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Blindagem - Postes SPDA e Cabo Aço"}, {"disc": "EMEC", "prio": 1, "grupo": "Blindagem", "ativ": "Blindagem - Montagem Cabo Aço", "start": "2026-10-01", "end": "2026-11-06", "dur": 37, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Blindagem - Postes SPDA e Cabo Aço"}, {"disc": "EMEC", "prio": 1, "grupo": "Suporte Equipamentos", "ativ": "Suporte Disjuntor - Conclusão Montagem", "start": "2026-10-20", "end": "2026-11-17", "dur": 29, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Suporte Equipamentos"}, {"disc": "EMEC", "prio": 1, "grupo": "Suporte Equipamentos", "ativ": "Suporte Seccionadora - Conclusão Montagem", "start": "2026-11-18", "end": "2026-12-16", "dur": 29, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Suporte Equipamentos"}, {"disc": "EMEC", "prio": 1, "grupo": "Suporte Equipamentos", "ativ": "Suporte Isolador Pedestal - Conclusão Montagem", "start": "2026-11-18", "end": "2026-12-09", "dur": 22, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Suporte Equipamentos"}, {"disc": "EMEC", "prio": 1, "grupo": "Suporte Equipamentos", "ativ": "Suporte Para-raio - Conclusão Montagem", "start": "2026-12-11", "end": "2027-01-25", "dur": 46, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Suporte Equipamentos"}, {"disc": "EMEC", "prio": 1, "grupo": "Suporte Equipamentos", "ativ": "Suporte Transformador de Corrente - Conclusão Montagem", "start": "2027-01-07", "end": "2027-01-20", "dur": 14, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Suporte Equipamentos"}, {"disc": "EMEC", "prio": 1, "grupo": "Montagem Equipamentos", "ativ": "Montagem Equipamentos - Isolador Pedestal", "start": "2026-10-29", "end": "2026-11-19", "dur": 22, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Suporte Equipamentos"}, {"disc": "EMEC", "prio": 1, "grupo": "Montagem Equipamentos", "ativ": "Montagem Equipamentos - Disjuntores", "start": "2026-11-18", "end": "2027-01-22", "dur": 66, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": null}, {"disc": "EMEC", "prio": 1, "grupo": "Montagem Equipamentos", "ativ": "Disjuntores - Posicionamento no Suporte", "start": "2026-11-18", "end": "2027-01-15", "dur": 59, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Montagem Equipamentos - Disjuntores"}, {"disc": "EMEC", "prio": 1, "grupo": "Montagem Equipamentos", "ativ": "Disjuntores - Montagem Eletromecânica", "start": "2026-11-18", "end": "2027-01-15", "dur": 59, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Montagem Equipamentos - Disjuntores"}, {"disc": "EMEC", "prio": 1, "grupo": "Montagem Equipamentos", "ativ": "Disjuntores - Conexão de Eletrodutos e Aterramento", "start": "2026-12-10", "end": "2027-01-22", "dur": 44, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Montagem Equipamentos - Disjuntores"}, {"disc": "EMEC", "prio": 1, "grupo": "Montagem Equipamentos", "ativ": "Montagem Equipamentos - Chaves Seccionadoras", "start": "2026-12-10", "end": "2027-03-01", "dur": 82, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": null}, {"disc": "EMEC", "prio": 1, "grupo": "Montagem Equipamentos", "ativ": "Seccionadoras - Posicionamento no Suporte", "start": "2026-12-10", "end": "2027-01-22", "dur": 44, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Montagem Equipamentos - Chaves Seccionadoras"}, {"disc": "EMEC", "prio": 1, "grupo": "Montagem Equipamentos", "ativ": "Seccionadoras - Montagem Eletromecânica", "start": "2026-12-10", "end": "2027-01-22", "dur": 44, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Montagem Equipamentos - Chaves Seccionadoras"}, {"disc": "EMEC", "prio": 1, "grupo": "Montagem Equipamentos", "ativ": "Seccionadoras - Conexão e Aterramento", "start": "2026-12-10", "end": "2027-01-29", "dur": 51, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Montagem Equipamentos - Chaves Seccionadoras"}, {"disc": "EMEC", "prio": 1, "grupo": "Montagem Equipamentos", "ativ": "Seccionadoras - Ajuste e Regulagem Final", "start": "2027-02-01", "end": "2027-03-01", "dur": 29, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Montagem Equipamentos - Chaves Seccionadoras"}, {"disc": "EMEC", "prio": 1, "grupo": "Montagem Equipamentos", "ativ": "Montagem Equipamentos - Para-raio", "start": "2027-01-12", "end": "2027-02-01", "dur": 21, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Suporte Equipamentos"}, {"disc": "EMEC", "prio": 1, "grupo": "Montagem Equipamentos", "ativ": "Montagem Equipamentos - Transformador de Corrente", "start": "2027-01-14", "end": "2027-02-12", "dur": 30, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": null}, {"disc": "EMEC", "prio": 1, "grupo": "Montagem Equipamentos", "ativ": "TC - Posicionamento no Suporte", "start": "2027-01-14", "end": "2027-01-27", "dur": 14, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Montagem Equipamentos - Transformador de Corrente"}, {"disc": "EMEC", "prio": 1, "grupo": "Montagem Equipamentos", "ativ": "TC - Montagem Eletromecânica", "start": "2027-01-19", "end": "2027-02-08", "dur": 21, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Montagem Equipamentos - Transformador de Corrente"}, {"disc": "EMEC", "prio": 1, "grupo": "Montagem Equipamentos", "ativ": "TC - Conexão de Eletrodutos e Aterramento", "start": "2027-01-22", "end": "2027-02-12", "dur": 22, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Montagem Equipamentos - Transformador de Corrente"}, {"disc": "EMEC", "prio": 1, "grupo": "Montagem Reatores", "ativ": "Montagem dos Reatores", "start": "2026-12-16", "end": "2027-02-23", "dur": 70, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": null}, {"disc": "EMEC", "prio": 1, "grupo": "Montagem Reatores", "ativ": "Reatores - Tratamento de Óleo e Comissionamento", "start": "2026-12-16", "end": "2027-02-16", "dur": 63, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Montagem dos Reatores"}, {"disc": "EMEC", "prio": 1, "grupo": "Montagem Reatores", "ativ": "Reatores - Conclusão Interligação Elétrica (cabos de alta)", "start": "2027-02-17", "end": "2027-02-23", "dur": 7, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Montagem dos Reatores"}, {"disc": "EMEC", "prio": 1, "grupo": "Barramento Flexível", "ativ": "Barramento Flexível - Vãos", "start": "2026-12-11", "end": "2027-01-27", "dur": 48, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": null}, {"disc": "EMEC", "prio": 1, "grupo": "Barramento Flexível", "ativ": "Barramento Flexível Vãos - Conclusão Tensionamento Cabos", "start": "2026-12-11", "end": "2027-01-18", "dur": 39, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Barramento Flexível - Vãos"}, {"disc": "EMEC", "prio": 1, "grupo": "Barramento Flexível", "ativ": "Barramento Flexível Vãos - Conclusão Barramento Aéreo", "start": "2027-01-07", "end": "2027-01-27", "dur": 21, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Barramento Flexível - Vãos"}, {"disc": "EMEC", "prio": 1, "grupo": "Barramento Flexível", "ativ": "Barramento Flexível - Interligação entre Equipamentos", "start": "2027-01-19", "end": "2027-02-19", "dur": 32, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": null}, {"disc": "EMEC", "prio": 1, "grupo": "Barramento Flexível", "ativ": "Barrto Flex Interlig - Conclusão Tensionamento Cabos", "start": "2027-01-19", "end": "2027-02-16", "dur": 29, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Barramento Flexível - Interligação entre Equipamentos"}, {"disc": "EMEC", "prio": 1, "grupo": "Barramento Flexível", "ativ": "Barrto Flex Interlig - Conclusão Interligação Equipamentos", "start": "2027-01-22", "end": "2027-02-19", "dur": 29, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Barramento Flexível - Interligação entre Equipamentos"}, {"disc": "EMEC", "prio": 1, "grupo": "Barramento Flexível", "ativ": "Barrto Flex Interlig - Conclusão Pingados", "start": "2027-01-22", "end": "2027-02-19", "dur": 29, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Barramento Flexível - Interligação entre Equipamentos"}, {"disc": "EMEC", "prio": 1, "grupo": "Barramento Rígido", "ativ": "Barramento Rígido", "start": "2027-01-07", "end": "2027-02-11", "dur": 36, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": null}, {"disc": "EMEC", "prio": 1, "grupo": "Barramento Rígido", "ativ": "Barramento Rígido - Conclusão Fixação dos Tubos", "start": "2027-01-07", "end": "2027-02-11", "dur": 36, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Barramento Rígido"}, {"disc": "EMEC", "prio": 1, "grupo": "Malha de Aterramento", "ativ": "Malha de Aterramento Principal", "start": "2026-11-17", "end": "2027-02-19", "dur": 95, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": null}, {"disc": "EMEC", "prio": 1, "grupo": "Malha de Aterramento", "ativ": "Malha de Aterramento - Conclusão Construção", "start": "2026-11-17", "end": "2027-02-19", "dur": 95, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Malha de Aterramento Principal"}, {"disc": "EMEC", "prio": 1, "grupo": "Montagem Painéis", "ativ": "Montagem Painéis SPCS", "start": "2026-09-15", "end": "2026-10-27", "dur": 43, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": null}, {"disc": "EMEC", "prio": 1, "grupo": "Montagem Painéis", "ativ": "Montagem Painéis SPCS - Conclusão Montagem", "start": "2026-09-15", "end": "2026-09-28", "dur": 14, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Montagem Painéis SPCS"}, {"disc": "EMEC", "prio": 1, "grupo": "Montagem Painéis", "ativ": "Montagem Painéis Telecom - Conclusão Montagem", "start": "2026-09-29", "end": "2026-10-13", "dur": 15, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Montagem Painéis SPCS"}, {"disc": "EMEC", "prio": 1, "grupo": "Montagem Painéis", "ativ": "Montagem Painéis Serviço Auxiliar - Conclusão Montagem", "start": "2026-10-14", "end": "2026-10-27", "dur": 14, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Montagem Painéis SPCS"}, {"disc": "ELÉTRICA", "prio": 1, "grupo": "Lançamento de Cabos", "ativ": "Cablagem - Sala Chimarrão / Campo", "start": "2026-11-26", "end": "2027-04-05", "dur": 131, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": null}, {"disc": "ELÉTRICA", "prio": 1, "grupo": "Lançamento de Cabos", "ativ": "Cablagem - Conclusão Lançamento dos Cabos e Preparação", "start": "2026-11-26", "end": "2027-01-22", "dur": 58, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Cablagem - Sala Chimarrão / Campo"}, {"disc": "ELÉTRICA", "prio": 1, "grupo": "Lançamento de Cabos", "ativ": "Cablagem - Ponto a Ponto (continuidade e funcional)", "start": "2027-02-15", "end": "2027-03-12", "dur": 26, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Cablagem - Sala Chimarrão / Campo"}, {"disc": "ELÉTRICA", "prio": 1, "grupo": "Lançamento de Cabos", "ativ": "Cablagem - Megger (resistência e isolamento)", "start": "2027-02-15", "end": "2027-03-12", "dur": 26, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Cablagem - Sala Chimarrão / Campo"}, {"disc": "ELÉTRICA", "prio": 1, "grupo": "Lançamento de Cabos", "ativ": "Cablagem - Conclusão Interligação Elétrica", "start": "2027-03-15", "end": "2027-04-05", "dur": 22, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Cablagem - Sala Chimarrão / Campo"}, {"disc": "ELÉTRICA", "prio": 1, "grupo": "Interligação dos Cabos", "ativ": "Cablagem - Entre Fases dos Equipamentos", "start": "2026-11-26", "end": "2027-04-05", "dur": 131, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": null}, {"disc": "ELÉTRICA", "prio": 1, "grupo": "Interligação dos Cabos", "ativ": "Cablagem Entre Fases - Conclusão Lançamento dos Cabos", "start": "2026-11-26", "end": "2027-01-22", "dur": 58, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Cablagem - Entre Fases dos Equipamentos"}, {"disc": "ELÉTRICA", "prio": 1, "grupo": "Interligação dos Cabos", "ativ": "Cablagem Entre Fases - Ponto a Ponto", "start": "2027-02-15", "end": "2027-03-12", "dur": 26, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Cablagem - Entre Fases dos Equipamentos"}, {"disc": "ELÉTRICA", "prio": 1, "grupo": "Interligação dos Cabos", "ativ": "Cablagem Entre Fases - Megger", "start": "2027-02-15", "end": "2027-03-12", "dur": 26, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Cablagem - Entre Fases dos Equipamentos"}, {"disc": "ELÉTRICA", "prio": 1, "grupo": "Interligação dos Cabos", "ativ": "Cablagem Entre Fases - Conclusão Interligação Elétrica", "start": "2027-03-15", "end": "2027-04-05", "dur": 22, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Cablagem - Entre Fases dos Equipamentos"}, {"disc": "ELÉTRICA", "prio": 2, "grupo": "Fibra Óptica", "ativ": "Fibra Óptica Telecom", "start": "2027-03-08", "end": "2027-03-25", "dur": 18, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": null}, {"disc": "ELÉTRICA", "prio": 2, "grupo": "Fibra Óptica", "ativ": "Fibra Óptica - Conclusão Infraestrutura para Cabo Óptico", "start": "2027-03-08", "end": "2027-03-19", "dur": 12, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Fibra Óptica Telecom"}, {"disc": "ELÉTRICA", "prio": 2, "grupo": "Fibra Óptica", "ativ": "Fibra Óptica - Conclusão Lançamento e Fusão até LT", "start": "2027-03-10", "end": "2027-03-23", "dur": 14, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Fibra Óptica Telecom"}, {"disc": "ELÉTRICA", "prio": 2, "grupo": "Fibra Óptica", "ativ": "Fibra Óptica - Conclusão Lançamento e Fusão entre Casas", "start": "2027-03-12", "end": "2027-03-25", "dur": 14, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Fibra Óptica Telecom"}, {"disc": "COMISSIONAMENTO", "prio": 1, "grupo": "Comissionamento N0", "ativ": "Comissionamento Nível 0 - Equipamentos de Pátio", "start": "2027-02-15", "end": "2027-03-31", "dur": 45, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": null}, {"disc": "COMISSIONAMENTO", "prio": 1, "grupo": "Comissionamento N0", "ativ": "Comissionamento N0 - Conclusão Equipamentos de Pátio", "start": "2027-02-15", "end": "2027-03-31", "dur": 45, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Comissionamento Nível 0 - Equipamentos de Pátio"}, {"disc": "COMISSIONAMENTO", "prio": 1, "grupo": "Comissionamento N0", "ativ": "Comissionamento N0 - Conclusão Malha de Aterramento", "start": "2027-03-16", "end": "2027-03-30", "dur": 15, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Comissionamento Nível 0 - Equipamentos de Pátio"}, {"disc": "COMISSIONAMENTO", "prio": 1, "grupo": "Comissionamento N1", "ativ": "Comissionamento Nível 1 - Proteção e Controle (SPCS)", "start": "2027-04-01", "end": "2027-05-13", "dur": 43, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": null}, {"disc": "COMISSIONAMENTO", "prio": 1, "grupo": "Comissionamento N1", "ativ": "Comissionamento N1 - Apoio ao Comissionamento SPCS/TELECOM", "start": "2027-04-01", "end": "2027-05-13", "dur": 43, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Comissionamento Nível 1 - Proteção e Controle (SPCS)"}, {"disc": "COMISSIONAMENTO", "prio": 2, "grupo": "Comissionamento N2", "ativ": "Comissionamento Nível 2 - Supervisório", "start": "2027-04-01", "end": "2027-05-13", "dur": 43, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": null}, {"disc": "COMISSIONAMENTO", "prio": 2, "grupo": "Comissionamento N2", "ativ": "Comissionamento N2 - Conclusão do Comissionamento", "start": "2027-04-01", "end": "2027-05-13", "dur": 43, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Comissionamento Nível 2 - Supervisório"}, {"disc": "COMISSIONAMENTO", "prio": 1, "grupo": "Comissionamento N3", "ativ": "Comissionamento Nível 3 - Integração COT/COS", "start": "2027-05-14", "end": "2027-06-25", "dur": 43, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": null}, {"disc": "COMISSIONAMENTO", "prio": 1, "grupo": "Comissionamento N3", "ativ": "Comissionamento N3 - Conclusão do Comissionamento", "start": "2027-05-14", "end": "2027-06-25", "dur": 43, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": "Comissionamento Nível 3 - Integração COT/COS"}, {"disc": "ENERGIZAÇÃO", "prio": 1, "grupo": "Energização", "ativ": "Condição Pronto para Energizar", "start": "2027-06-27", "end": "2027-06-27", "dur": 1, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": null}, {"disc": "ENERGIZAÇÃO", "prio": 1, "grupo": "Energização", "ativ": "Energização do Projeto", "start": "2027-07-04", "end": "2027-07-04", "dur": 1, "real_start": null, "real_end": null, "restric": "", "progress": {}, "parent": null}];
+
+// ═══════════════════════════════════════════
+// CONSTANTS
+// ═══════════════════════════════════════════
+const DC={
+  'CIVIL':           {color:'#0D3FA8',bg:'#C8DAFF',text:'#061A5C',badgeBg:'#E8F0FF'},
+  'EMEC':            {color:'#0A6B2E',bg:'#BAEECF',text:'#033A16',badgeBg:'#E0F5E9'},
+  'ELÉTRICA':        {color:'#7A4F00',bg:'#FFE490',text:'#3A2200',badgeBg:'#FFF5CC'},
+  'COMISSIONAMENTO': {color:'#5020C0',bg:'#DDD0FF',text:'#200870',badgeBg:'#F0EAFF'},
+  'ENERGIZAÇÃO':     {color:'#E8560A',bg:'#FFD0B8',text:'#601800',badgeBg:'#FFF0E8'},
+};
+const DISC_ORDER=['CIVIL','EMEC','ELÉTRICA','COMISSIONAMENTO','ENERGIZAÇÃO'];
+const MONTHS=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+const DAYS=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+const MAX_DUR=ACTS.reduce((m,a)=>Math.max(m,a.dur||0),0);
+
+// ═══════════════════════════════════════════
+// DATE UTILS — sem bug de timezone
+// ═══════════════════════════════════════════
+function pd(s){if(!s)return null;const[y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d);}
+const _N=new Date();
+const TODAY=new Date(_N.getFullYear(),_N.getMonth(),_N.getDate());
+const TODAY_STR=dStr(TODAY);
+function dStr(d){if(!d)return null;return`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
+function fmt(s){if(!s)return'—';const[,m,d]=s.split('-');return`${d}/${m}`;}
+function fmtFull(s){if(!s)return'—';const[y,m,d]=s.split('-');return`${d}/${m}/${y}`;}
+function diffDays(a,b){return Math.round((pd(b)-pd(a))/(86400000));}
+function addDays(s,n){const d=pd(s);d.setDate(d.getDate()+n);return dStr(d);}
+function mondayOf(d){const r=new Date(d);const dw=r.getDay();r.setDate(r.getDate()-(dw===0?6:dw-1));return r;}
+
+// ═══════════════════════════════════════════
+// STATUS ENGINE
+// ═══════════════════════════════════════════
+function sta(a,refStr){
+  const ref=refStr?pd(refStr):TODAY;
+  if(a.real_end) return 'concluded';
+  if(a.real_start){const e=pd(a.end);if(e&&ref>e)return'late';return'ongoing';}
+  const s=pd(a.start),e=pd(a.end);
+  if(!s&&e){return ref>e?'late':'ongoing';}
+  if(!s)return'pending';
+  if(ref<s)return'planned';
+  if(e&&ref>e)return'late';
+  return'ongoing';
+}
+function restam(a,refStr){
+  const ref=refStr||TODAY_STR; const st=sta(a,ref);
+  if(st==='concluded'){
+    if(!a.real_end||!a.end)return{txt:'✅ Concluída',cls:'restam-ok'};
+    const d=diffDays(a.real_end,a.end);
+    if(d>0)return{txt:`✅ ${d}d adiantada`,cls:'restam-ok'};
+    if(d<0)return{txt:`✅ ${Math.abs(d)}d atraso`,cls:'restam-late'};
+    return{txt:'✅ No prazo',cls:'restam-ok'};
+  }
+  if(!a.end)return{txt:'—',cls:''};
+  const days=diffDays(ref,a.end);
+  if(st==='planned'){const ds=diffDays(ref,a.start);return{txt:`−${Math.abs(ds)}d p/ início`,cls:'restam-ok'};}
+  if(st==='late')return{txt:`−${Math.abs(days)}d atrasada`,cls:'restam-late'};
+  if(days<=3)return{txt:`+${days}d restantes`,cls:'restam-soon'};
+  return{txt:`+${days}d restantes`,cls:'restam-ok'};
+}
+function sbadge(st){
+  const m={ongoing:'sbadge-ongoing',planned:'sbadge-planned',late:'sbadge-late',concluded:'sbadge-concluded',pending:'sbadge-pending'};
+  const l={ongoing:'Em andamento',planned:'Planejada',late:'Atrasada',concluded:'Concluída',pending:'A definir'};
+  return`<span class="sbadge ${m[st]||'sbadge-pending'}">${l[st]||st}</span>`;
+}
+function priodot(p){return`<span class="prio-dot prio-${p}">${p}</span>`;}
+function durbar(dur){
+  const pct=Math.min(100,Math.round((dur/Math.max(MAX_DUR,1))*100));
+  const c=dur<=15?'#B01A08':dur<=30?'#7A4F00':'#0D3FA8';
+  return`<div class="dur-cell"><span class="dur-num">${dur}d</span><div class="dur-bar-track"><div class="dur-bar-fill" style="width:${pct}%;background:${c}"></div></div></div>`;
+}
+
+// ═══════════════════════════════════════════
+// HERO DATE
+// ═══════════════════════════════════════════
+(()=>{
+  const d=TODAY;
+  document.getElementById('hero-date').textContent=
+    `${String(d.getDate()).padStart(2,'0')} / ${String(d.getMonth()+1).padStart(2,'0')} / ${d.getFullYear()}`;
+})();
+
+// ═══════════════════════════════════════════
+// KPI STRIP
+// ═══════════════════════════════════════════
+function buildKPI(){
+  const total=ACTS.length;
+  const ong=ACTS.filter(a=>sta(a)==='ongoing').length;
+  const pln=ACTS.filter(a=>sta(a)==='planned').length;
+  const lat=ACTS.filter(a=>sta(a)==='late').length;
+  const conc=ACTS.filter(a=>sta(a)==='concluded').length;
+  document.getElementById('kpi-strip').innerHTML=`
+    <div class="kpi-block kpi-total"><div class="kpi-label">Total</div><div class="kpi-val">${total}</div><div class="kpi-sub">5 Disciplinas</div></div>
+    <div class="kpi-block kpi-ong"><div class="kpi-label">Em Andamento</div><div class="kpi-val">${ong}</div><div class="kpi-sub">Hoje</div></div>
+    <div class="kpi-block kpi-pln"><div class="kpi-label">Planejadas</div><div class="kpi-val">${pln}</div><div class="kpi-sub">Aguardando</div></div>
+    <div class="kpi-block kpi-lat"><div class="kpi-label">Atrasadas</div><div class="kpi-val">${lat}</div><div class="kpi-sub">Requer Ação</div></div>
+    <div class="kpi-block kpi-conc"><div class="kpi-label">Concluídas</div><div class="kpi-val">${conc}</div><div class="kpi-sub">Realizadas</div></div>`;
+}
+
+// ═══════════════════════════════════════════
+// ABA 1 — DISCIPLINAS
+// ═══════════════════════════════════════════
+let openDisc=null;
+function buildDisc(){
+  const el=document.getElementById('disc-inner');
+  const sc={ongoing:0,planned:0,late:0,concluded:0};
+
+  let cardsHtml='<div class="disc-cards">';
+  DISC_ORDER.forEach(d=>{
+    const acts=ACTS.filter(a=>a.disc===d);
+    if(!acts.length)return;
+    const c=DC[d];
+    const cnt={ongoing:0,planned:0,late:0,concluded:0,pending:0};
+    acts.forEach(a=>cnt[sta(a)]++);
+    const key=d.replace(/[^a-zA-Z]/g,'_');
+    cardsHtml+=`
+    <div class="disc-card" id="card-${key}" style="--disc-color:${c.color}" onclick="toggleDisc('${key}','${d}')">
+      <div class="disc-card-accent"></div>
+      <div class="disc-card-top">
+        <span class="disc-card-name">${d}</span>
+        <span class="disc-count-badge" style="background:${c.badgeBg};color:${c.color}">${acts.length} ativ.</span>
+      </div>
+      <div class="disc-card-stats">
+        <span class="disc-stat"><span class="disc-stat-dot" style="background:#C89000"></span>${cnt.ongoing} Andamento</span>
+        <span class="disc-stat"><span class="disc-stat-dot" style="background:#0D3FA8"></span>${cnt.planned} Plan.</span>
+        <span class="disc-stat"><span class="disc-stat-dot" style="background:#B01A08"></span>${cnt.late} Venc.</span>
+        ${cnt.concluded?`<span class="disc-stat"><span class="disc-stat-dot" style="background:#1A7A08"></span>${cnt.concluded} Conc.</span>`:''}
+      </div>
+      <div class="disc-toggle" id="toggle-${key}">▼ CLIQUE PARA DETALHAR</div>
+    </div>`;
+  });
+  cardsHtml+='</div>';
+
+  // Table placeholders
+  let tablesHtml='';
+  DISC_ORDER.forEach(d=>{
+    const key=d.replace(/[^a-zA-Z]/g,'_');
+    tablesHtml+=`<div class="disc-table-wrap" id="table-${key}"><div id="table-body-${key}"></div></div>`;
+  });
+
+  el.innerHTML=`
+    <div class="sec-hdr">
+      <span class="sec-title">Resumo por disciplina — clique em uma disciplina para expandir as atividades</span>
+      <button class="print-btn" onclick="window.print()">🖨 Imprimir A3</button>
+    </div>
+    ${cardsHtml}
+    ${tablesHtml}`;
+}
+
+function toggleDisc(key,disc){
+  const card=document.getElementById(`card-${key}`);
+  const wrap=document.getElementById(`table-${key}`);
+  const toggle=document.getElementById(`toggle-${key}`);
+  const isOpen=wrap.classList.contains('open');
+
+  document.querySelectorAll('.disc-table-wrap').forEach(w=>w.classList.remove('open'));
+  document.querySelectorAll('.disc-card').forEach(c=>c.classList.remove('open'));
+  document.querySelectorAll('.disc-toggle').forEach(t=>{t.textContent='▼ CLIQUE PARA DETALHAR';});
+
+  if(isOpen){openDisc=null;return;}
+  openDisc=disc;
+  card.classList.add('open');
+  wrap.classList.add('open');
+  toggle.textContent='▲ CLIQUE PARA FECHAR';
+
+  const c=DC[disc];
+  const cls={'CIVIL':'civil','EMEC':'emec','ELÉTRICA':'elet','COMISSIONAMENTO':'com','ENERGIZAÇÃO':'energ'}[disc]||'civil';
+  const allActs=ACTS.filter(a=>a.disc===disc);
+  const mothers=allActs.filter(a=>!a.parent).sort((a,b)=>a.prio-b.prio||(a.start||'').localeCompare(b.start||''));
+  const childMap={};
+  allActs.filter(a=>a.parent).forEach(a=>{if(!childMap[a.parent])childMap[a.parent]=[];childMap[a.parent].push(a);});
+
+  let rows='';
+  let gIdx=0;
+  mothers.forEach(a=>{
+    const kids=(childMap[a.ativ]||[]).sort((a,b)=>(a.start||'').localeCompare(b.start||''));
+    const hasKids=kids.length>0;
+    const s=sta(a); const r=restam(a);
+    const gid=`dg-${key}-${gIdx++}`;
+
+    if(hasKids){
+      rows+=`<tr style="background:#F0F2F5;cursor:pointer" onclick="discToggleGroup('${gid}')">
+        <td>${priodot(a.prio)}</td>
+        <td class="td-ativ"><div class="td-ativ-name" style="font-weight:700;display:flex;align-items:center;gap:6px">
+          <span id="arr-${gid}" style="font-size:11px;color:#888;transition:transform .2s;display:inline-block">&#9660;</span>
+          ${a.ativ}
+          <span style="font-size:10px;background:#DDE2EC;color:#555;padding:1px 7px;border-radius:10px;font-weight:600">${kids.length}</span>
+        </div></td>
+        <td style="white-space:nowrap;font-size:12px;color:#555">${fmt(a.start)}</td>
+        <td style="white-space:nowrap;font-size:12px;color:#555">${fmt(a.end)}</td>
+        <td>${durbar(a.dur||0)}</td>
+        <td class="${r.cls}" style="white-space:nowrap;font-size:12px;font-weight:700">${r.txt}</td>
+        <td>${sbadge(s)}</td>
+        <td style="font-size:11px;color:#888">${a.grupo}</td>
+      </tr>`;
+      kids.forEach(k=>{
+        const ks=sta(k); const kr=restam(k);
+        rows+=`<tr class="child-row" data-group="${gid}" style="background:${ks==='concluded'?'#F5FFF5':'#fff'}">
+          <td>${priodot(k.prio)}</td>
+          <td class="td-ativ" style="padding-left:28px"><div class="td-ativ-name"><span style="color:#bbb;margin-right:4px;font-size:10px">└</span>${k.ativ}</div></td>
+          <td style="white-space:nowrap;font-size:12px;color:#555">${fmt(k.start)}</td>
+          <td style="white-space:nowrap;font-size:12px;color:#555">${fmt(k.end)}</td>
+          <td>${durbar(k.dur||0)}</td>
+          <td class="${kr.cls}" style="white-space:nowrap;font-size:12px;font-weight:700">${kr.txt}</td>
+          <td>${sbadge(ks)}</td>
+          <td style="font-size:11px;color:#888">${k.grupo}</td>
+        </tr>`;
+      });
+    } else {
+      rows+=`<tr style="background:${s==='concluded'?'#F5FFF5':'#fff'}">
+        <td>${priodot(a.prio)}</td>
+        <td class="td-ativ"><div class="td-ativ-name">${a.ativ}</div></td>
+        <td style="white-space:nowrap;font-size:12px;color:#555">${fmt(a.start)}</td>
+        <td style="white-space:nowrap;font-size:12px;color:#555">${fmt(a.end)}</td>
+        <td>${durbar(a.dur||0)}</td>
+        <td class="${r.cls}" style="white-space:nowrap;font-size:12px;font-weight:700">${r.txt}</td>
+        <td>${sbadge(s)}</td>
+        <td style="font-size:11px;color:#888">${a.grupo}</td>
+      </tr>`;
+    }
+  });
+
+  document.getElementById(`table-body-${key}`).innerHTML=`
+    <div class="disc-table-header ${cls}">
+      <span class="disc-table-title">${disc} — ${allActs.length} ATIVIDADES</span>
+      <span class="disc-table-sub">ORDENADO POR PRIORIDADE · ${mothers.length} GRUPOS &nbsp;·&nbsp; clique no grupo para expandir</span>
+    </div>
+    <div style="overflow-x:auto"><table>
+      <tr><th>P</th><th>Atividade</th><th>Início</th><th>Término</th><th>Duração</th><th>⏱ Restam</th><th>Status</th><th>Grupo</th></tr>
+      ${rows}
+    </table></div>`;
+}
+function discToggleGroup(gid){
+  const rows=document.querySelectorAll(`[data-group="${gid}"]`);
+  const arr=document.getElementById(`arr-${gid}`);
+  const hidden=rows.length&&rows[0].style.display==='none';
+  rows.forEach(r=>r.style.display=hidden?'':'none');
+  if(arr)arr.style.transform=hidden?'rotate(0deg)':'rotate(-90deg)';
+}
+
+
+
+// ═══════════════════════════════════════════
+// ABA 2 — TIMELINE
+// ═══════════════════════════════════════════
+let tlBuilt=false,tlFiltSt='all',tlDiscF='ALL',tlPeriodFrom='',tlPeriodTo='',tlFull=false;
+// Estado de colapso de grupos: chave = disc+':'+motherName, valor = bool collapsed
+const tlCollapsed={};
+
+function buildTimeline(){
+  const el=document.getElementById('tl-inner');
+
+  function tlBadge(s){
+    if(s==='late')     return`<span style="display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:700;background:#C0392B;color:#fff;padding:2px 8px;border-radius:20px;margin-left:6px;white-space:nowrap;flex-shrink:0">&#9888; Atrasada</span>`;
+    if(s==='concluded')return`<span style="display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:700;background:#1A7A08;color:#fff;padding:2px 8px;border-radius:20px;margin-left:6px;white-space:nowrap;flex-shrink:0">&#10003; Conclu&#237;da</span>`;
+    if(s==='ongoing')  return`<span style="display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:700;background:#C89000;color:#fff;padding:2px 8px;border-radius:20px;margin-left:6px;white-space:nowrap;flex-shrink:0">&#9654; Em andamento</span>`;
+    return'';
+  }
+
+  let _dmeta=[]; // metadados pré-computados por dia (fim de semana / hoje)
+  function ganttCells(a,dates,ref,s){
+    const realCls=s==='concluded'?'trg':s==='late'?'trl':'tro';
+    let cells='',run=null,runN=0;
+    const flush=()=>{if(runN>0)cells+=`<td class="${run}"${runN>1?` colspan="${runN}"`:''}></td>`;};
+    for(let i=0;i<dates.length;i++){
+      const dk=dates[i];
+      const inPlan=a.start&&a.end&&dk>=a.start&&dk<=a.end;
+      const inReal=a.real_start&&dk>=a.real_start&&(!a.real_end||dk<=a.real_end);
+      const m=_dmeta[i];
+      const cls='tc'+(inPlan?' tp':'')+(inReal?' '+realCls:'')+(m.td?' ttd':m.wk?' twk':'');
+      if(cls===run)runN++;else{flush();run=cls;runN=1;}
+    }
+    flush();
+    return cells;
+  }
+
+  function render(){
+    const allDates=ACTS.flatMap(a=>[a.start,a.end]).filter(Boolean).sort();
+    const globalMin=allDates[0],globalMax=allDates[allDates.length-1];
+    // Janela padrão: 2 semanas antes de hoje até 8 semanas depois (mais rápido).
+    // "Cronograma completo" exibe todo o período.
+    const winMode=!tlFull&&!tlPeriodFrom&&!tlPeriodTo;
+    let periodMin=tlPeriodFrom||globalMin;
+    let periodMax=tlPeriodTo||globalMax;
+    if(winMode){
+      const t=pd(TODAY_STR);
+      const wa=new Date(t);wa.setDate(t.getDate()-14);
+      const wb=new Date(t);wb.setDate(t.getDate()+56);
+      const waS=dStr(wa),wbS=dStr(wb);
+      periodMin=waS<globalMin?globalMin:waS;
+      periodMax=wbS>globalMax?globalMax:wbS;
+    }
+    const dates=[];
+    for(let d=new Date(pd(periodMin));d<=pd(periodMax);d.setDate(d.getDate()+1))dates.push(dStr(new Date(d)));
+    _dmeta=dates.map(dk=>{const dow=pd(dk).getDay();return{wk:dow===0||dow===6,td:dk===TODAY_STR};});
+
+    const ref=TODAY_STR;
+    let acts=ACTS;
+    if(tlFiltSt==='late')      acts=acts.filter(a=>sta(a,ref)==='late');
+    else if(tlFiltSt==='ongoing')   acts=acts.filter(a=>sta(a,ref)==='ongoing');
+    else if(tlFiltSt==='concluded') acts=acts.filter(a=>sta(a,ref)==='concluded');
+    if(tlDiscF!=='ALL') acts=acts.filter(a=>a.disc===tlDiscF);
+    if(tlPeriodFrom||tlPeriodTo||winMode){
+      acts=acts.filter(a=>{if(!a.end)return false;const s=a.start||'2000-01-01';return s<=periodMax&&a.end>=periodMin;});
+    }
+
+    // Quando filtrando por status, incluir as mães das filhas que passam no filtro
+    // para manter a hierarquia visível
+    if(tlFiltSt!=='all'){
+      const parentNames=new Set(acts.filter(a=>a.parent).map(a=>a.parent));
+      const missing=ACTS.filter(a=>!a.parent&&parentNames.has(a.ativ)&&!acts.find(x=>x.ativ===a.ativ));
+      acts=[...missing,...acts];
+    }
+
+    // ── Largura dinâmica da coluna de atividade ──
+    // Usa canvas measureText para precisão real
+    const _ctx=(()=>{try{const c=document.createElement('canvas');return c.getContext('2d');}catch(e){return null;}})();
+    function measureTxt(txt,fontPx,bold){
+      if(!_ctx)return txt.length*7;
+      _ctx.font=`${bold?'700 ':''}${fontPx}px Inter,sans-serif`;
+      return _ctx.measureText(txt).width;
+    }
+    let maxTxtW=0;
+    acts.forEach(a=>{
+      const indent=a.parent?34+12:22+60; // indent px + prio dot + badge/arrow
+      const w=measureTxt(a.ativ,12,!a.parent)+indent+28; // 28px = padding L+R
+      if(w>maxTxtW)maxTxtW=w;
+    });
+    const colW=Math.round(Math.min(Math.max(maxTxtW,240),560))+'px';
+
+    const discs=[...new Set(acts.map(a=>a.disc))];
+    const btnSt=(active,bg,border,tc)=>`padding:4px 14px;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;border:2px solid ${active?bg:border};background:${active?bg:'#fff'};color:${active?'#fff':tc};transition:all .15s`;
+    const hasPeriod=tlPeriodFrom&&tlPeriodTo;
+
+    let html=``;
+
+    // ── Toolbar linha 1 ──
+    html+=`<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;justify-content:space-between">
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+        <span style="font-size:11px;font-weight:700;letter-spacing:1px;color:#333;text-transform:uppercase;white-space:nowrap">TIMELINE &mdash; PREVISTO POR ATIVIDADE</span>
+        <span style="font-size:11px;color:#aaa;font-weight:600">FILTRAR:</span>
+        <button style="${btnSt(tlFiltSt==='all','#E8560A','#E8560A','#E8560A')}" onclick="tlSF('all')">Todas</button>
+        <button style="${btnSt(tlFiltSt==='late','#C0392B','#C0392B','#C0392B')}" onclick="tlSF('late')">Atrasadas</button>
+        <button style="${btnSt(tlFiltSt==='ongoing','#1A7A08','#1A7A08','#1A7A08')}" onclick="tlSF('ongoing')">Em execu&#231;&#227;o</button>
+        <button style="${btnSt(tlFiltSt==='concluded','#1A7A08','#1A7A08','#1A7A08')}" onclick="tlSF('concluded')">Conclu&#237;das</button>
+      </div>
+      <button class="print-btn" onclick="window.print()">&#128424; Imprimir A3</button>
+    </div>`;
+
+    // ── Toolbar linha 2: Disciplina + Período ──
+    html+=`<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px;padding:10px 14px;background:#F8F9FB;border-radius:8px;border:1px solid #E8E9EC">
+      <span style="font-size:11px;font-weight:700;color:#888;letter-spacing:.5px;white-space:nowrap">DISC:</span>
+      <button style="${btnSt(tlDiscF==='ALL','#1A1A18','#ccc','#555')}" onclick="tlDF('ALL')">Todas</button>`;
+    DISC_ORDER.forEach(d=>{const c=DC[d]||{color:'#666'};html+=`<button style="${btnSt(tlDiscF===d,c.color,c.color,c.color)}" onclick="tlDF('${d}')">${d}</button>`;});
+    html+=`<span style="width:1px;height:20px;background:#ddd;margin:0 6px"></span>
+      <span style="font-size:11px;font-weight:700;color:#888;letter-spacing:.5px;white-space:nowrap">PER&#205;ODO:</span>
+      <input type="date" value="${tlPeriodFrom}" onchange="tlPF(this.value)" style="padding:4px 8px;border:1.5px solid ${tlPeriodFrom?'#E8560A':'#ddd'};border-radius:6px;font-family:Inter,sans-serif;font-size:12px">
+      <span style="font-size:12px;color:#aaa;font-weight:600">at&#233;</span>
+      <input type="date" value="${tlPeriodTo}" onchange="tlPT(this.value)" style="padding:4px 8px;border:1.5px solid ${tlPeriodTo?'#E8560A':'#ddd'};border-radius:6px;font-family:Inter,sans-serif;font-size:12px">
+      ${hasPeriod?`<button onclick="tlPC()" style="padding:4px 10px;border:1.5px solid #C0392B;border-radius:20px;background:#fff;cursor:pointer;font-size:11px;font-weight:700;color:#C0392B">&#215; Limpar</button><span style="font-size:11px;font-weight:600;color:#E8560A">${dates.length}d</span>`:`<button onclick="tlPHoje()" style="padding:4px 10px;border:1.5px solid #ddd;border-radius:20px;background:#fff;cursor:pointer;font-size:11px;font-weight:600;color:#555">&#128197; Hoje</button>`}
+      <span style="width:1px;height:20px;background:#ddd;margin:0 6px"></span>
+      <button onclick="tlFullToggle()" style="padding:4px 12px;border:1.5px solid ${tlFull?'#E8560A':'#ddd'};border-radius:20px;background:${tlFull?'#E8560A':'#fff'};cursor:pointer;font-size:11px;font-weight:700;color:${tlFull?'#fff':'#555'}">${tlFull?'&#8617; Janela padr&#227;o':'&#128462; Cronograma completo'}</button>
+      ${winMode?`<span style="font-size:10px;color:#aaa">exibindo ${fmtFull(periodMin)} &rarr; ${fmtFull(periodMax)} (janela r&#225;pida)</span>`:''}
+    </div>`;
+
+    // ── Legenda ──
+    html+=`<div style="font-size:11px;color:#555;margin-bottom:12px;display:flex;gap:16px;flex-wrap:wrap;align-items:center">
+      <span style="font-weight:700;color:#888;letter-spacing:.5px">LEGENDA:</span>
+      <span style="display:flex;align-items:center;gap:5px"><span style="display:inline-block;width:28px;height:5px;background:#9DB8D8;border-radius:2px"></span>Planejado</span>
+      <span style="display:flex;align-items:center;gap:5px"><span style="display:inline-block;width:28px;height:9px;background:#E8560A;border-radius:2px"></span>Em execu&#231;&#227;o</span>
+      <span style="display:flex;align-items:center;gap:5px"><span style="display:inline-block;width:28px;height:9px;background:#1A7A08;border-radius:2px"></span>Conclu&#237;do</span>
+      <span style="display:flex;align-items:center;gap:5px"><span style="display:inline-block;width:28px;height:9px;background:#8B1A00;border-radius:2px"></span>Atrasado</span>
+      <span style="font-size:10px;color:#aaa">&#9654; Clique no grupo para expandir/colapsar subatividades</span>
+    </div>`;
+
+    // ── Navegação de scroll da timeline ──
+    const navBtn=`padding:5px 11px;border:1.5px solid #ddd;border-radius:8px;background:#fff;cursor:pointer;font-size:12px;font-weight:700;color:#555;line-height:1`;
+    html+=`<div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;flex-wrap:wrap">
+      <span style="font-size:11px;font-weight:700;color:#888;letter-spacing:.5px;white-space:nowrap">NAVEGAR:</span>
+      <button style="${navBtn}" onclick="tlScrollEdge('start')" title="Ir para o início">&#9198;</button>
+      <button style="${navBtn}" onclick="tlScroll(-1)" title="Voltar">&#9664;</button>
+      <button style="padding:5px 12px;border:1.5px solid #E8560A;border-radius:8px;background:#E8560A;color:#fff;cursor:pointer;font-size:11px;font-weight:700;line-height:1" onclick="tlScrollToday()" title="Centralizar em hoje">&#128205; Hoje</button>
+      <button style="${navBtn}" onclick="tlScroll(1)" title="Avançar">&#9654;</button>
+      <button style="${navBtn}" onclick="tlScrollEdge('end')" title="Ir para o fim">&#9197;</button>
+      <span style="font-size:10px;color:#bbb">arraste a barra inferior ou use a roda do mouse sobre a linha do tempo</span>
+    </div>`;
+
+    // ── Tabela ──
+    html+=`<div id="tl-scroll" style="overflow-x:auto;scroll-behavior:smooth;border-radius:8px;box-shadow:0 1px 6px rgba(0,0,0,.1)"><table style="white-space:nowrap;border-collapse:collapse;font-size:12px"><thead>`;
+
+    // Cabeçalho meses
+    const mgs=[];
+    dates.forEach(dk=>{const ym=dk.slice(0,7);if(!mgs.length||mgs[mgs.length-1].ym!==ym)mgs.push({ym,count:1});else mgs[mgs.length-1].count++;});
+    html+=`<tr><th style="position:sticky;left:0;z-index:5;background:#1A1A18;width:${colW};min-width:${colW};max-width:${colW};padding:0;border-right:2px solid #333"></th>`;
+    mgs.forEach(({ym,count})=>{const[y,m]=ym.split('-');html+=`<th colspan="${count}" style="background:#E8560A;color:#fff;text-align:center;font-size:11px;font-weight:700;padding:5px 2px;letter-spacing:1px;border-left:1px solid rgba(255,255,255,.15)">${MONTHS[parseInt(m)-1].toUpperCase()} ${y}</th>`;});
+    // Cabeçalho dias
+    html+=`</tr><tr><th style="position:sticky;left:0;z-index:5;background:#1A1A18;width:${colW};min-width:${colW};max-width:${colW};padding:6px 14px;text-align:left;font-size:10px;font-weight:700;color:#aaa;border-right:2px solid #444;letter-spacing:.5px">ATIVIDADE / DISCIPLINA</th>`;
+    dates.forEach(dk=>{const d=pd(dk);const dow=d.getDay();const isTod=dk===TODAY_STR;const isWk=dow===0||dow===6;html+=`<th ${isTod?'id="tl-today-col"':''} style="width:22px;min-width:22px;padding:4px 1px;text-align:center;font-size:10px;font-weight:700;color:${isTod?'#fff':isWk?'#555':'#888'};background:${isTod?'#E8560A':isWk?'#2A2A28':'#1A1A18'};border-left:1px solid #2A2A28">${d.getDate()}<br><span style="font-size:8px;font-weight:400;opacity:.6">${DAYS[dow][0]}</span></th>`;});
+    html+=`</tr></thead><tbody>`;
+
+    if(!acts.length){
+      html+=`<tr><td colspan="${dates.length+1}" style="text-align:center;padding:40px;color:#aaa;font-size:13px;background:#fff">Nenhuma atividade para o filtro selecionado.</td></tr>`;
+    } else {
+      discs.forEach(disc=>{
+        const discActs=acts.filter(a=>a.disc===disc);
+        const mothers=discActs.filter(a=>!a.parent);
+        const childMap={};
+        discActs.filter(a=>a.parent).forEach(a=>{if(!childMap[a.parent])childMap[a.parent]=[];childMap[a.parent].push(a);});
+
+        // Header disciplina
+        html+=`<tr><td colspan="${dates.length+1}" style="background:#0D0D0C;color:#fff;font-size:11px;font-weight:800;padding:7px 14px;letter-spacing:1px;text-transform:uppercase;border-top:3px solid #E8560A">${disc} &middot; ${discActs.length} ATIVIDADES</td></tr>`;
+
+        mothers.forEach(a=>{
+          const s=sta(a,ref);
+          const kids=(childMap[a.ativ]||[]).sort((a,b)=>(a.start||'').localeCompare(b.start||''));
+          const hasKids=kids.length>0;
+          const colKey=`${disc}:${a.ativ}`;
+          const collapsed=tlCollapsed[colKey]===true; // default: expandido
+
+          if(hasKids){
+            // Linha mãe — clicável, fundo escuro suave, seta rotacionável
+            const arrowRot=collapsed?'rotate(-90deg)':'rotate(0deg)';
+            html+=`<tr style="background:#F0F2F5;cursor:pointer" onclick="tlToggleGroup('${colKey.replace(/'/g,"\\'")}')">
+              <td style="position:sticky;left:0;z-index:2;background:#F0F2F5;padding:6px 14px;border-bottom:1px solid #E0E2E6;border-right:2px solid #E8E9EC;width:${colW};min-width:${colW};max-width:${colW};overflow:hidden">
+                <div style="display:flex;align-items:center;gap:6px;overflow:hidden">
+                  ${priodot(a.prio)}
+                  <span style="display:inline-block;font-size:11px;color:#666;transition:transform .2s;transform:${arrowRot}" id="arr-${colKey.replace(/[^a-z0-9]/gi,'_')}">&#9660;</span>
+                  <span style="font-size:12px;font-weight:700;color:#1A1A2E;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;min-width:0">${a.ativ}</span>
+                  <span style="font-size:10px;background:#DDE2EC;color:#555;padding:1px 7px;border-radius:10px;font-weight:600;flex-shrink:0">${kids.length}</span>
+                  ${tlBadge(s)}
+                </div>
+              </td>
+              ${ganttCells(a,dates,ref,s)}
+            </tr>`;
+            // Linhas filhas
+            if(!collapsed){
+              kids.forEach(k=>{
+                const ks=sta(k,ref);
+                html+=`<tr style="background:${ks==='concluded'?'#F5FFF5':'#fff'}">
+                  <td style="position:sticky;left:0;z-index:2;background:${ks==='concluded'?'#F5FFF5':'#fff'};padding:5px 14px 5px 34px;border-bottom:1px solid #F5F5F5;border-right:2px solid #E8E9EC;width:${colW};min-width:${colW};max-width:${colW};overflow:hidden">
+                    <div style="display:flex;align-items:center;gap:5px;overflow:hidden">
+                      <span style="color:#bbb;font-size:11px;flex-shrink:0">└</span>
+                      ${priodot(k.prio)}
+                      <span style="font-size:12px;font-weight:400;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;min-width:0">${k.ativ}</span>
+                      ${tlBadge(ks)}
+                    </div>
+                  </td>
+                  ${ganttCells(k,dates,ref,ks)}
+                </tr>`;
+              });
+            }
+          } else {
+            // Linha standalone
+            html+=`<tr style="background:${s==='concluded'?'#F5FFF5':'#fff'}">
+              <td style="position:sticky;left:0;z-index:2;background:${s==='concluded'?'#F5FFF5':'#fff'};padding:5px 14px;border-bottom:1px solid #EFEFEF;border-right:2px solid #E8E9EC;width:${colW};min-width:${colW};max-width:${colW};overflow:hidden">
+                <div style="display:flex;align-items:center;gap:6px;overflow:hidden">
+                  ${priodot(a.prio)}
+                  <span style="font-size:12px;font-weight:500;color:#1A1A2E;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;min-width:0">${a.ativ}</span>
+                  ${tlBadge(s)}
+                </div>
+              </td>
+              ${ganttCells(a,dates,ref,s)}
+            </tr>`;
+          }
+        });
+      });
+    }
+    html+=`</tbody></table></div>`;
+    el.innerHTML=html;
+    const sc=document.getElementById('tl-scroll');
+    if(sc) sc.addEventListener('wheel',tlWheel,{passive:false});
+  }
+  render();
+  window._tlRender=render;
+  // Centraliza em "hoje" na primeira abertura
+  requestAnimationFrame(()=>tlScrollToday(false));
+}
+function tlScrollEl(){return document.getElementById('tl-scroll');}
+function tlScroll(dir){const sc=tlScrollEl();if(!sc)return;sc.scrollBy({left:dir*Math.max(220,sc.clientWidth*0.7),behavior:'smooth'});}
+function tlScrollEdge(edge){const sc=tlScrollEl();if(!sc)return;sc.scrollTo({left:edge==='end'?sc.scrollWidth:0,behavior:'smooth'});}
+function tlScrollToday(smooth=true){
+  const sc=tlScrollEl();if(!sc)return;
+  const col=document.getElementById('tl-today-col');
+  if(!col){sc.scrollTo({left:0,behavior:smooth?'smooth':'auto'});return;}
+  const scRect=sc.getBoundingClientRect(), colRect=col.getBoundingClientRect();
+  const delta=(colRect.left-scRect.left)-sc.clientWidth/2+colRect.width/2;
+  sc.scrollTo({left:Math.max(0,sc.scrollLeft+delta),behavior:smooth?'smooth':'auto'});
+}
+function tlWheel(e){
+  const sc=tlScrollEl();if(!sc)return;
+  if(sc.scrollWidth<=sc.clientWidth)return;
+  if(Math.abs(e.deltaX)>Math.abs(e.deltaY))return;
+  const atStart=sc.scrollLeft<=0, atEnd=sc.scrollLeft>=sc.scrollWidth-sc.clientWidth-1;
+  if((e.deltaY<0&&atStart)||(e.deltaY>0&&atEnd))return;
+  sc.scrollLeft+=e.deltaY; e.preventDefault();
+}
+function tlSF(f){tlFiltSt=f;if(window._tlRender)window._tlRender();}
+function tlDF(d){tlDiscF=d;if(window._tlRender)window._tlRender();}
+function tlPF(v){tlPeriodFrom=v;if(window._tlRender)window._tlRender();}
+function tlPT(v){tlPeriodTo=v;if(window._tlRender)window._tlRender();}
+function tlPC(){tlPeriodFrom='';tlPeriodTo='';if(window._tlRender)window._tlRender();}
+function tlPHoje(){tlPeriodFrom=TODAY_STR;tlPeriodTo=TODAY_STR;if(window._tlRender)window._tlRender();}
+function tlFullToggle(){tlFull=!tlFull;if(window._tlRender)window._tlRender();requestAnimationFrame(()=>tlScrollToday(false));}
+function tlToggleGroup(key){
+  tlCollapsed[key]=!tlCollapsed[key];
+  if(window._tlRender)window._tlRender();
+}
+
+
+// ═══════════════════════════════════════════
+// WEATHER
+// ═══════════════════════════════════════════
+const WP='latitude=-31.5572&longitude=-53.6714&daily=precipitation_sum,precipitation_probability_max,weathercode,temperature_2m_max,temperature_2m_min&timezone=America%2FSao_Paulo&forecast_days=7';
+const WURLS=['https://api.open-meteo.com/v1/forecast?'+WP,'https://api.allorigins.win/raw?url='+encodeURIComponent('https://api.open-meteo.com/v1/forecast?'+WP)];
+let wData=null,wProm=null;
+function wmoIcon(c){if(c===0)return{i:'☀️',l:'Céu limpo'};if(c<=2)return{i:'⛅',l:'Parc. nublado'};if(c<=3)return{i:'☁️',l:'Nublado'};if(c<=49)return{i:'🌫️',l:'Névoa'};if(c<=59)return{i:'🌦️',l:'Garoa'};if(c<=69)return{i:'🌧️',l:'Chuva'};if(c<=79)return{i:'❄️',l:'Granizo'};if(c<=82)return{i:'🌧️',l:'Chuva forte'};if(c<=99)return{i:'⛈️',l:'Trovoada'};return{i:'🌡️',l:'Variável'};}
+function fetchW(){
+  if(wData)return Promise.resolve(wData);
+  if(wProm)return wProm;
+  wProm=new Promise(async res=>{
+    for(const u of WURLS){try{const ctrl=new AbortController();const t=setTimeout(()=>ctrl.abort(),6000);const r=await fetch(u,{signal:ctrl.signal});clearTimeout(t);if(r.ok){wData=await r.json();res(wData);return;}}catch(e){}}res(null);
+  });
+  return wProm;
+}
+function renderWBar(ids,n=7){
+  fetchW().then(w=>{
+    ids.forEach(id=>{
+      const el=document.getElementById(id);if(!el)return;
+      if(!w||!w.daily){el.innerHTML='<span style="color:#aaa;font-size:12px;padding:8px">Clima indisponível</span>';return;}
+      let h='';
+      for(let i=0;i<Math.min(n,w.daily.time.length);i++){
+        const dt=w.daily.time[i];const code=w.daily.weathercode[i];const{i:icon}=wmoIcon(code);
+        const rain=w.daily.precipitation_probability_max[i]||0;
+        const mm=w.daily.precipitation_sum[i]||0;
+        const tmax=Math.round(w.daily.temperature_2m_max[i]||0);
+        const tmin=Math.round(w.daily.temperature_2m_min[i]||0);
+        const d=pd(dt);const dn=DAYS[d.getDay()];
+        const cls=rain>=70||mm>=10?'rain-alert':rain>=40?'rain-warn':'';
+        h+=`<div class="wday ${cls}"><div class="wday-name">${dn} ${d.getDate()}/${d.getMonth()+1}</div><div class="wday-icon">${icon}</div><div class="wday-temp">${tmin}°–${tmax}°C</div><div class="wday-rain">🌧 ${rain}% · ${mm}mm</div></div>`;
+      }
+      el.innerHTML=h;
+    });
+  });
+}
+
+// ═══════════════════════════════════════════
+// ABA 3 — SEMANAS
+// ═══════════════════════════════════════════
+function buildSemanas(){
+  const el=document.getElementById('sem-inner');
+  const startMon=mondayOf(new Date(TODAY));
+  startMon.setDate(startMon.getDate()-14);
+  const weeks=[];
+  for(let i=0;i<10;i++){const m=new Date(startMon);m.setDate(startMon.getDate()+i*7);const f=new Date(m);f.setDate(m.getDate()+4);weeks.push({m,f});}
+  const todMon=mondayOf(TODAY);
+
+  let html=`
+  <div class="sec-hdr"><span class="sec-title">Atividades por semana — clique para ver detalhamento</span><button class="print-btn" onclick="window.print()">🖨 Imprimir A3</button></div>
+  <div id="wbar-sem" class="weather-bar"></div>
+  <div class="week-grid">`;
+  weeks.forEach(({m,f})=>{
+    const ms=dStr(m),fs=dStr(f);
+    const isCurr=dStr(m)===dStr(todMon);
+    const wa=ACTS.filter(a=>{if(!a.end)return false;const s=a.start?pd(a.start):pd('2000-01-01');return s<=f&&pd(a.end)>=m;});
+    const ong=wa.filter(a=>sta(a)==='ongoing').length;
+    const lat=wa.filter(a=>sta(a)==='late').length;
+    const conc=wa.filter(a=>sta(a)==='concluded').length;
+    const p1=wa.filter(a=>a.prio===1).length;
+    html+=`<div class="week-card ${isCurr?'curr':''}" onclick="openWeekModal('${ms}','${fs}')">
+      <div class="week-card-hdr">
+        <span class="week-card-title">${m.getDate()}/${m.getMonth()+1} – ${f.getDate()}/${f.getMonth()+1}</span>
+        ${isCurr?'<span class="week-curr-tag">ATUAL</span>':''}
+      </div>
+      <div class="week-card-body">
+        <div class="week-row"><span class="week-row-k">Atividades</span><span class="week-row-v">${wa.length}</span></div>
+        ${ong?`<div class="week-row"><span class="week-row-k">Em andamento</span><span class="week-row-v" style="color:#C89000">${ong}</span></div>`:''}
+        ${lat?`<div class="week-row"><span class="week-row-k">Atrasadas</span><span class="week-row-v late">${lat}</span></div>`:''}
+        ${conc?`<div class="week-row"><span class="week-row-k">Concluídas</span><span class="week-row-v ok">${conc}</span></div>`:''}
+      </div>
+    </div>`;
+  });
+  html+='</div>';
+  el.innerHTML=html;
+  renderWBar(['wbar-sem'],7);
+}
+function openWeekModal(ms,fs){
+  const wa=ACTS.filter(a=>{if(!a.end)return false;const s=a.start?pd(a.start):pd('2000-01-01');return s<=pd(fs)&&pd(a.end)>=pd(ms);});
+  const discs=[...new Set(wa.map(a=>a.disc))];
+  const ong=wa.filter(a=>sta(a)==='ongoing').length;
+  const lat=wa.filter(a=>sta(a)==='late').length;
+  const conc=wa.filter(a=>sta(a)==='concluded').length;
+  let body=`<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px">
+    <span class="sbadge sbadge-ongoing">${ong} Em andamento</span>
+    <span class="sbadge sbadge-planned">${wa.filter(a=>sta(a)==='planned').length} Planejadas</span>
+    ${lat?`<span class="sbadge sbadge-late">${lat} Atrasadas</span>`:''}
+    ${conc?`<span class="sbadge sbadge-concluded">${conc} Concluídas</span>`:''}
+  </div>`;
+  discs.forEach(d=>{
+    const c=DC[d]||{color:'#666',bg:'#eee',text:'#333'};
+    const da=wa.filter(a=>a.disc===d);
+    body+=`<div style="margin-bottom:12px"><div style="background:${c.bg};color:${c.text};padding:5px 10px;border-radius:6px;font-weight:700;font-size:11px;margin-bottom:6px;letter-spacing:.5px">${d} (${da.length})</div>`;
+    da.forEach(a=>{const s=sta(a);body+=`<div style="display:flex;gap:8px;align-items:center;padding:5px 0;border-bottom:1px solid #F0F1F3">${priodot(a.prio)}<span style="flex:1;font-size:12px">${a.ativ}</span>${sbadge(s)}</div>`;});
+    body+='</div>';
+  });
+  openModal(`Semana ${fmtFull(ms)} – ${fmtFull(fs)}`,body);
+}
+
+// ═══════════════════════════════════════════
+// ABA 4 — DATA TÉRMINO
+// ═══════════════════════════════════════════
+let calY=TODAY.getFullYear(),calM=TODAY.getMonth(),calFilt='all';
+function buildDT(){renderCal();}
+function renderCal(){
+  const el=document.getElementById('dt-inner');
+  const first=new Date(calY,calM,1),last=new Date(calY,calM+1,0);
+  let html=`
+  <div class="sec-hdr"><span class="sec-title">Calendário de vencimentos — data de término das atividades</span><button class="print-btn" onclick="window.print()">🖨 Imprimir A3</button></div>
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+    <button class="cal-nav-btn" onclick="calNav(-1)">← Mês anterior</button>
+    <span style="font-size:14px;font-weight:700">${MONTHS[calM]} ${calY}</span>
+    <button class="cal-nav-btn" onclick="calNav(1)">Próximo mês →</button>
+  </div>
+  <div class="pills" id="dt-pills">
+    <button class="pill p-active" onclick="calF('all',this)">Todas</button>
+    <button class="pill p-red" onclick="calF('late',this)">Atrasadas</button>
+    <button class="pill" onclick="calF('3d',this)">Vencem em 3 dias</button>
+    <button class="pill p-blue" onclick="calF('7d',this)">Vencem em 7 dias</button>
+    <button class="pill p-dark" onclick="calF('concluded',this)">✅ Concluídas</button>
+  </div>
+  <div class="cal-wrap"><div class="cal-grid">
+  ${DAYS.map(d=>`<div class="cal-dname">${d}</div>`).join('')}`;
+
+  for(let i=0;i<first.getDay();i++)html+=`<div class="cal-cell empty"></div>`;
+  for(let day=1;day<=last.getDate();day++){
+    const ds=`${calY}-${String(calM+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+    const d=new Date(calY,calM,day);const isToday=ds===TODAY_STR;const isWk=d.getDay()===0||d.getDay()===6;
+    const endActs=ACTS.filter(a=>a.end===ds);
+    let pills='';
+    endActs.forEach(a=>{
+      const s=sta(a);const dl=diffDays(TODAY_STR,a.end);
+      let show=calFilt==='all'||(calFilt==='late'&&s==='late')||(calFilt==='3d'&&dl>=0&&dl<=3&&s!=='concluded')||(calFilt==='7d'&&dl>=0&&dl<=7&&s!=='concluded')||(calFilt==='concluded'&&s==='concluded');
+      if(!show)return;
+      let bg='#C8DAFF',tc='#061A5C';
+      if(s==='concluded'){bg='#D4EDDA';tc='#0A3A04';}
+      else if(s==='late'){bg='#FFD8D3';tc='#580800';}
+      else if(dl<=3){bg='#FFE4B0';tc='#7A3000';}
+      else if(dl<=7){bg='#FFF5CC';tc='#7A4F00';}
+      pills+=`<div class="cal-pill" style="background:${bg};color:${tc}" title="${a.ativ}">${a.ativ.slice(0,16)}${a.ativ.length>16?'…':''}</div>`;
+    });
+    html+=`<div class="cal-cell ${isToday?'cal-today':''} ${isWk?'weekend':''}"><div class="cal-day-num">${day}</div>${pills}</div>`;
+  }
+  html+=`</div></div>`;
+
+  // Legend
+  html+=`<div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:12px;font-size:11px;color:#666">
+    <span><span style="display:inline-block;width:10px;height:10px;background:#FFD8D3;border-radius:2px;margin-right:4px;vertical-align:middle"></span>Vence hoje ou atrasado</span>
+    <span><span style="display:inline-block;width:10px;height:10px;background:#FFE4B0;border-radius:2px;margin-right:4px;vertical-align:middle"></span>Vence em até 3 dias</span>
+    <span><span style="display:inline-block;width:10px;height:10px;background:#FFF5CC;border-radius:2px;margin-right:4px;vertical-align:middle"></span>Vence em 4–7 dias</span>
+    <span><span style="display:inline-block;width:10px;height:10px;background:#C8DAFF;border-radius:2px;margin-right:4px;vertical-align:middle"></span>Futuro (não iniciou)</span>
+    <span><span style="display:inline-block;width:10px;height:10px;background:#D4EDDA;border-radius:2px;margin-right:4px;vertical-align:middle"></span>Concluída</span>
+  </div>`;
+
+  // List
+  const filtered=ACTS.filter(a=>{
+    if(!a.end)return false;
+    const eY=parseInt(a.end.slice(0,4)),eM=parseInt(a.end.slice(5,7))-1;
+    if(eY!==calY||eM!==calM)return false;
+    const s=sta(a);const dl=diffDays(TODAY_STR,a.end);
+    if(calFilt==='all')return true;
+    if(calFilt==='late')return s==='late';
+    if(calFilt==='3d')return dl>=0&&dl<=3&&s!=='concluded';
+    if(calFilt==='7d')return dl>=0&&dl<=7&&s!=='concluded';
+    if(calFilt==='concluded')return s==='concluded';
+    return false;
+  }).sort((a,b)=>a.end>b.end?1:-1);
+
+  if(filtered.length){
+    html+=`<div style="margin-top:20px"><div class="sec-hdr"><span class="sec-title">Vencimentos em ${MONTHS[calM]} (${filtered.length})</span></div>`;
+    html+=`<div style="overflow-x:auto;background:#fff;border-radius:10px;border:1px solid #E8E9EC"><table>
+      <tr><th>P</th><th>Disciplina</th><th>Atividade</th><th>Término Plan.</th><th>Término Real</th><th>⏱ Restam</th><th>Status</th></tr>`;
+    filtered.forEach(a=>{
+      const s=sta(a);const r=restam(a);const c=DC[a.disc]||{color:'#666',bg:'#eee',text:'#333'};
+      html+=`<tr><td>${priodot(a.prio)}</td>
+        <td><span class="sbadge" style="background:${c.bg};color:${c.text};font-size:10px">${a.disc}</span></td>
+        <td class="td-ativ"><div class="td-ativ-name">${a.ativ}</div></td>
+        <td style="font-size:12px;white-space:nowrap">${fmtFull(a.end)}</td>
+        <td style="font-size:12px;white-space:nowrap">${fmtFull(a.real_end)}</td>
+        <td class="${r.cls}" style="font-size:12px;font-weight:700;white-space:nowrap">${r.txt}</td>
+        <td>${sbadge(s)}</td></tr>`;
+    });
+    html+='</table></div></div>';
+  }
+  el.innerHTML=html;
+}
+function calNav(n){calM+=n;if(calM>11){calM=0;calY++;}if(calM<0){calM=11;calY--;}renderCal();}
+function calF(f,btn){calFilt=f;document.querySelectorAll('#dt-pills .pill').forEach(b=>b.classList.remove('p-active','p-red','p-blue','p-dark'));btn.classList.add('p-active');renderCal();}
+
+// ═══════════════════════════════════════════
+// ABA 5 — INÍCIO / TÉRMINO
+// ═══════════════════════════════════════════
+let itBuilt=false,itOff=0,itDF='ALL',itHL=null;
+function buildIT(){renderIT();}
+function renderIT(){
+  const el=document.getElementById('it-inner');
+  const months=[];
+  for(let i=0;i<2;i++){
+    let raw=TODAY.getMonth()+itOff*2+i;
+    let m=((raw%12)+12)%12;
+    let y=TODAY.getFullYear()+Math.floor(raw/12);
+    months.push({y,m});
+  }
+  const discs=['ALL',...DISC_ORDER];
+  const filtActs=itDF==='ALL'?ACTS:ACTS.filter(a=>a.disc===itDF);
+
+  // Disc color for pills
+  const discPillStyle=(d)=>{
+    if(d===itDF){
+      const c=DC[d]||{color:'#E8560A'};
+      return`background:${c.color};color:#fff;border-color:${c.color}`;
+    }
+    return'background:#fff;color:#555;border-color:#ddd';
+  };
+
+  // Month nav title
+  const m0=months[0],m1=months[1];
+  const navTitle=`${MONTHS[m0.m].slice(0,3).toUpperCase()} ${m0.y} &mdash; ${MONTHS[m1.m].slice(0,3).toUpperCase()} ${m1.y}`;
+
+  let html=`
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px">
+    <span style="font-size:11px;font-weight:700;letter-spacing:1px;color:#555;text-transform:uppercase">INÍCIO / TÉRMINO DAS ATIVIDADES — CLIQUE EM UMA ATIVIDADE PARA DESTACAR</span>
+    <div style="display:flex;align-items:center;gap:8px">
+      <button class="cal-nav-btn" onclick="itNav(-1)">&#8592; Mês anterior</button>
+      <span style="font-size:14px;font-weight:800;color:#E8560A;white-space:nowrap">${navTitle}</span>
+      <button class="cal-nav-btn" onclick="itNav(1)">Próximo mês &#8594;</button>
+    </div>
+  </div>
+  <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
+    ${discs.map(d=>{
+      const label=d==='ALL'?'TODAS':d;
+      const active=d===itDF;
+      const c=DC[d]||{color:'#1A1A18'};
+      const bg=active?(d==='ALL'?'#1A1A18':c.color):'#fff';
+      const tc=active?'#fff':(d==='ALL'?'#333':c.color);
+      const bc=active?(d==='ALL'?'#1A1A18':c.color):(d==='ALL'?'#ccc':c.color);
+      return`<button style="padding:5px 14px;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;border:2px solid ${bc};background:${bg};color:${tc};transition:all .15s" onclick="itFD('${d}')">${label}</button>`;
+    }).join('')}
+    ${itHL!==null?`<button style="padding:5px 12px;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;border:2px solid #C0392B;background:#fff;color:#C0392B" onclick="itHL=null;renderIT()">&#215; Limpar seleção</button>`:''}
+  </div>
+  <button class="print-btn" style="margin-bottom:14px" onclick="window.print()">&#128424; Imprimir A3</button>
+  <div style="display:flex;gap:14px;flex-wrap:wrap;font-size:11px;color:#555;margin-bottom:16px;align-items:center">
+    <span style="font-weight:700;color:#888;letter-spacing:.5px">LEGENDA:</span>
+    <span style="display:flex;align-items:center;gap:5px"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#0A6B2E"></span>Início da atividade</span>
+    <span style="display:flex;align-items:center;gap:5px"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#C0392B"></span>Término da atividade</span>
+    <span style="display:flex;align-items:center;gap:5px"><span style="display:inline-block;width:32px;height:8px;border-radius:4px;background:#C8DAFF"></span>Em execução (entre início e término)</span>
+    <span style="display:flex;align-items:center;gap:5px"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#E8560A"></span>Início e Término no mesmo dia</span>
+    <span style="display:flex;align-items:center;gap:5px"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#1A7A08"></span>&#10003; Concluída (data real)</span>
+    <span style="font-size:10px;color:#aaa">&#9889; Clique em qualquer atividade para destacá-la. Clique novamente para limpar.</span>
+  </div>`;
+
+  months.forEach(({y,m})=>{
+    const first=new Date(y,m,1),last=new Date(y,m+1,0);
+    // Start week on Monday
+    const firstDow=first.getDay(); // 0=Sun
+    const startOffset=(firstDow===0)?6:firstDow-1; // offset to Monday
+
+    html+=`<div style="margin-bottom:32px">
+      <div style="font-size:16px;font-weight:800;color:#E8560A;margin-bottom:10px;letter-spacing:.5px;border-bottom:2px solid #E8560A;padding-bottom:6px">${MONTHS[m].toUpperCase()} ${y}</div>
+      <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:0;border:1px solid #E8E9EC;border-radius:10px;overflow:hidden">`;
+
+    // Day headers Mon-Sun
+    const dayHdrs=['SEG','TER','QUA','QUI','SEX','SÁB','DOM'];
+    dayHdrs.forEach(d=>{
+      html+=`<div style="background:#F0F2F5;padding:7px 4px;text-align:center;font-size:10px;font-weight:700;color:#888;letter-spacing:.8px;border-bottom:1px solid #E8E9EC;border-right:1px solid #E8E9EC">${d}</div>`;
+    });
+
+    // Empty cells before first day
+    for(let i=0;i<startOffset;i++){
+      html+=`<div style="background:#FAFBFC;min-height:100px;border-right:1px solid #F0F1F3;border-bottom:1px solid #F0F1F3"></div>`;
+    }
+
+    for(let day=1;day<=last.getDate();day++){
+      const ds=`${y}-${String(m+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+      const d=new Date(y,m,day);
+      const dow=(d.getDay()+6)%7; // 0=Mon
+      const isToday=ds===TODAY_STR;
+      const isWk=dow>=5; // Sat=5, Sun=6
+      const isLastCol=dow===6;
+      const isLastRow=day>last.getDate()-7;
+
+      let pills='';
+      filtActs.forEach((a,idx)=>{
+        const op=itHL!==null&&itHL!==idx?'0.12':'1';
+        const isConcl=!!a.real_end;
+        const sd=a.real_start||a.start;
+        const ed=a.real_end||a.end;
+        if(!ed)return;
+        const isSt=sd===ds,isEd=ed===ds,inSp=sd&&ed&&ds>sd&&ds<ed;
+        const disc=a.disc;
+        const c=DC[disc]||{color:'#666',bg:'#eee',text:'#333'};
+
+        if(isSt&&isEd){
+          // Início e término mesmo dia - laranja
+          pills+=`<div onclick="itHLF(${idx})" style="opacity:${op};cursor:pointer;display:flex;align-items:center;gap:4px;background:#FFF0E8;border:1px solid #E8560A;border-radius:20px;padding:2px 7px;margin-bottom:2px;font-size:10px;font-weight:600;color:#E8560A;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">
+            <span style="width:7px;height:7px;border-radius:50%;background:#E8560A;flex-shrink:0"></span>
+            <span style="overflow:hidden;text-overflow:ellipsis">${a.ativ}</span>
+          </div>`;
+        } else if(isSt){
+          // Início - verde
+          const bg=isConcl?'#E8F5E0':'#E8F5E0';
+          const bc=isConcl?'#1A7A08':'#0A6B2E';
+          const tc=isConcl?'#1A7A08':'#0A6B2E';
+          pills+=`<div onclick="itHLF(${idx})" style="opacity:${op};cursor:pointer;display:flex;align-items:center;gap:4px;background:${bg};border:1px solid ${bc};border-radius:20px;padding:2px 7px;margin-bottom:2px;font-size:10px;font-weight:700;color:${tc};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">
+            <span style="width:7px;height:7px;border-radius:50%;background:${bc};flex-shrink:0"></span>
+            <span style="overflow:hidden;text-overflow:ellipsis">${a.ativ}</span>
+          </div>`;
+        } else if(isEd){
+          // Término - vermelho (verde se concluída)
+          const bg=isConcl?'#E8F5E0':'#FFE8E8';
+          const bc=isConcl?'#1A7A08':'#C0392B';
+          const tc=isConcl?'#1A7A08':'#C0392B';
+          pills+=`<div onclick="itHLF(${idx})" style="opacity:${op};cursor:pointer;display:flex;align-items:center;gap:4px;background:${bg};border:1px solid ${bc};border-radius:20px;padding:2px 7px;margin-bottom:2px;font-size:10px;font-weight:700;color:${tc};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">
+            <span style="width:7px;height:7px;border-radius:50%;background:${bc};flex-shrink:0"></span>
+            <span style="overflow:hidden;text-overflow:ellipsis">${isConcl?'&#10003; ':''}${a.ativ}</span>
+          </div>`;
+        } else if(inSp){
+          // Em execução - barra azul
+          pills+=`<div onclick="itHLF(${idx})" style="opacity:${op};cursor:pointer;display:flex;align-items:center;gap:4px;background:#EEF3FF;border:1px solid #C8DAFF;border-radius:20px;padding:2px 7px;margin-bottom:2px;font-size:10px;font-weight:500;color:#0D3FA8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">
+            <span style="width:7px;height:7px;border-radius:50%;background:#C8DAFF;flex-shrink:0"></span>
+            <span style="overflow:hidden;text-overflow:ellipsis">${a.ativ}</span>
+          </div>`;
+        }
+      });
+
+      const cellBg=isToday?'#FFF5F0':isWk?'#FAFBFC':'#fff';
+      html+=`<div style="background:${cellBg};min-height:100px;padding:6px 5px;border-right:${isLastCol?'none':'1px solid #F0F1F3'};border-bottom:1px solid #F0F1F3;vertical-align:top;position:relative">
+        <div style="font-size:12px;font-weight:${isToday?'800':'600'};color:${isToday?'#E8560A':'#aaa'};margin-bottom:4px">${day}</div>
+        ${pills}
+      </div>`;
+    }
+
+    // Fill remaining cells to complete last row
+    const totalCells=startOffset+last.getDate();
+    const remainder=totalCells%7;
+    if(remainder!==0){
+      for(let i=remainder;i<7;i++){
+        html+=`<div style="background:#FAFBFC;min-height:100px;border-right:1px solid #F0F1F3;border-bottom:1px solid #F0F1F3"></div>`;
+      }
+    }
+    html+=`</div></div>`;
+
+    // Overflow section
+    const curM=`${y}-${String(m+1).padStart(2,'0')}`;
+    const ov=filtActs.filter(a=>{
+      const s=a.real_start||a.start;const e=a.real_end||a.end;
+      if(!s||!e)return false;
+      return s.slice(0,7)===curM&&e>dStr(last);
+    });
+    if(ov.length){
+      html+=`<div style="margin-top:10px;background:#F8F9FB;border-radius:8px;padding:10px 14px;border:1px solid #E8E9EC">
+        <div style="font-size:10px;font-weight:700;color:#888;letter-spacing:.8px;margin-bottom:6px">ATIVIDADES QUE CONTINUAM NO PRÓXIMO MÊS</div>`;
+      ov.forEach(a=>{
+        const nm=pd(a.real_end||a.end);
+        html+=`<div style="padding:4px 0;border-bottom:1px solid #F0F1F3;font-size:11px;color:#555">
+          &#10145; <strong>${a.ativ}</strong> &mdash; segue para ${MONTHS[nm.getMonth()]} &middot; término ${fmtFull(a.real_end||a.end)}
+        </div>`;
+      });
+      html+=`</div>`;
+    }
+  });
+
+  el.innerHTML=html;
+}
+function itNav(n){itOff+=n;renderIT();}
+function itFD(d){itDF=d;itHL=null;renderIT();}
+function itHLF(i){itHL=itHL===i?null:i;renderIT();}
+
+
+// ═══════════════════════════════════════════
+// ABA 6 — RESTRIÇÕES
+// ═══════════════════════════════════════════
+let restFilt='all';
+function buildRest(){
+  const el=document.getElementById('rest-inner');
+  const wr=ACTS.filter(a=>a.restric);
+  if(!wr.length){
+    el.innerHTML=`<div style="text-align:center;padding:60px;color:#aaa"><div style="font-size:48px;margin-bottom:12px">✅</div><div style="font-size:16px;font-weight:600">Nenhuma restrição registrada</div></div>`;
+    return;
+  }
+  el.innerHTML=`
+  <div class="sec-hdr"><span class="sec-title">Restrições registradas</span><button class="print-btn" onclick="window.print()">🖨 Imprimir A3</button></div>
+  <div class="pills" id="rest-pills">
+    <button class="pill p-active" onclick="restF('all',this)">Todas (${wr.length})</button>
+    <button class="pill p-blue" onclick="restF('Material',this)">Material</button>
+    <button class="pill p-blue" onclick="restF('Equipamento',this)">Equipamento</button>
+    <button class="pill p-green" onclick="restF('Recurso',this)">Recurso</button>
+    <button class="pill" onclick="restF('Outros',this)">Outros</button>
+  </div>
+  <div id="rest-content"></div>`;
+  renderRest('all');
+}
+function restF(cat,btn){
+  document.querySelectorAll('#rest-pills .pill').forEach(b=>{b.classList.remove('p-active','p-blue','p-green');});
+  btn.classList.add('p-active');
+  restFilt=cat;renderRest(cat);
+}
+function renderRest(cat){
+  const el=document.getElementById('rest-content');
+  let acts=ACTS.filter(a=>a.restric);
+  if(cat!=='all')acts=acts.filter(a=>a.restric.startsWith(cat));
+  if(!acts.length){el.innerHTML='<p style="color:#aaa;padding:20px">Nenhuma restrição nesta categoria.</p>';return;}
+  const discs=[...new Set(acts.map(a=>a.disc))];
+  let h='';
+  discs.forEach(d=>{
+    const c=DC[d]||{color:'#666',bg:'#eee',text:'#333'};
+    const da=acts.filter(a=>a.disc===d).sort((a,b)=>((a.end||'')>(b.end||'')?1:-1));
+    h+=`<div style="margin-bottom:20px"><div class="restric-group-hdr" style="background:${c.bg};color:${c.text}">${d} — ${da.length} restrição(ões)</div>`;
+    da.forEach(a=>{
+      const rt=a.restric.split(':')[0];
+      const cls=rt==='Material'?'mat':rt==='Equipamento'?'eqp':rt==='Recurso'?'rec':'out';
+      const s=sta(a);const r=restam(a);
+      h+=`<div class="restric-card ${cls}">
+        <div style="font-size:13px;font-weight:600;margin-bottom:4px">${a.ativ}${s==='concluded'?' <span style="font-size:9px;background:#0A7A2A;color:#fff;padding:1px 6px;border-radius:8px;font-weight:700">✅</span>':''}</div>
+        <div style="font-size:11px;color:#888">${priodot(a.prio)} Prio ${a.prio} · Fim: ${fmtFull(a.end)} · <span class="${r.cls}" style="font-weight:700">${r.txt}</span></div>
+        <div style="font-size:12px;color:#555;margin-top:6px">${a.restric}</div>
+      </div>`;
+    });
+    h+='</div>';
+  });
+  el.innerHTML=h;
+}
+
+// ═══════════════════════════════════════════
+// ABA 7 — WHATSAPP
+// ═══════════════════════════════════════════
+let waDate=TODAY_STR;
+function buildWA(){
+  const el=document.getElementById('wa-inner');
+  el.innerHTML=`
+  <div class="sec-hdr"><span class="sec-title">Relatório diário — gerar mensagem para WhatsApp</span><button class="print-btn" onclick="window.print()">🖨 Imprimir A3</button></div>
+  <div id="wbar-wa" class="weather-bar"></div>
+  <div class="wa-hdr">
+    <div class="wa-date-row">
+      <span class="wa-date-big" id="wa-date-display"></span>
+      <div class="wa-pills-row">
+        <button class="wa-pill" onclick="waSD(-1)">Ontem</button>
+        <button class="wa-pill wa-active" id="wa-hoje" onclick="waSD(0)">Hoje</button>
+        <button class="wa-pill" onclick="waSD(1)">Amanhã</button>
+      </div>
+      <input type="date" value="${waDate}" class="wa-date-input" id="wa-date-input" onchange="waDate=this.value;waRender()">
+    </div>
+    <button class="wa-copy" onclick="waCopy()">📋 Copiar para WhatsApp</button>
+  </div>
+  <div id="wa-text-out" class="wa-text"></div>
+  <div id="wa-summary" style="margin-top:16px"></div>`;
+  renderWBar(['wbar-wa'],7);
+  waRender();
+}
+function waSD(off){const d=new Date(TODAY);d.setDate(d.getDate()+off);waDate=dStr(d);document.getElementById('wa-date-input').value=waDate;waRender();}
+function waRender(){
+  const dk=waDate;
+  const d=pd(dk);const dn=DAYS[d.getDay()];
+  document.getElementById('wa-date-display').textContent=`${dn}, ${fmtFull(dk)}`;
+  document.getElementById('wa-hoje').classList.toggle('wa-active',dk===TODAY_STR);
+  const da=ACTS.filter(a=>{if(!a.end)return false;const s=a.start?pd(a.start):pd('2000-01-01');return pd(dk)>=s&&pd(dk)<=pd(a.end);});
+  const discs=[...new Set(da.map(a=>a.disc))];
+  const ong=da.filter(a=>sta(a,dk)==='ongoing').length;
+  const lat=da.filter(a=>sta(a,dk)==='late').length;
+  const conc=da.filter(a=>sta(a,dk)==='concluded').length;
+  let txt=`*📋 RELATÓRIO DIÁRIO DE CAMPO*\n*SE 500 kV Candiota 2 — CTA2*\n*${dn}, ${fmtFull(dk)}*\n\n`;
+  txt+=`*📊 Resumo:*\n• Total ativo: ${da.length} atividades\n• Em andamento: ${ong}  |  Atrasadas: ${lat}  |  Concluídas: ${conc}\n\n`;
+  discs.forEach(disc=>{
+    const acts=da.filter(a=>a.disc===disc);
+    txt+=`*🔧 ${disc} (${acts.length}):*\n`;
+    acts.slice(0,10).forEach(a=>{
+      const s=sta(a,dk);const icon=s==='concluded'?'✅':s==='late'?'🔴':s==='ongoing'?'🟡':'🔵';
+      txt+=`${icon} ${a.ativ}\n`;
+    });
+    if(acts.length>10)txt+=`   + ${acts.length-10} mais…\n`;
+    txt+='\n';
+  });
+  txt+=`_Gerado pelo Dashboard de Campo — Engetecnica CTA2_`;
+  document.getElementById('wa-text-out').textContent=txt;
+
+  // Summary table
+  let sumHtml='';
+  if(da.length){
+    sumHtml=`<div style="overflow-x:auto;background:#fff;border-radius:10px;border:1px solid #E8E9EC"><table><tr><th>P</th><th>Disciplina</th><th>Atividade</th><th>Início</th><th>Fim</th><th>Status</th></tr>`;
+    discs.forEach(disc=>{
+      const c=DC[disc]||{color:'#666',bg:'#eee',text:'#333'};
+      da.filter(a=>a.disc===disc).forEach(a=>{
+        sumHtml+=`<tr><td>${priodot(a.prio)}</td><td><span class="sbadge" style="background:${c.bg};color:${c.text};font-size:10px">${disc}</span></td><td class="td-ativ"><div class="td-ativ-name">${a.ativ}</div></td><td style="font-size:12px;white-space:nowrap">${fmtFull(a.start)}</td><td style="font-size:12px;white-space:nowrap">${fmtFull(a.end)}</td><td>${sbadge(sta(a,dk))}</td></tr>`;
+      });
+    });
+    sumHtml+='</table></div>';
+  }else{sumHtml='<p style="color:#aaa;text-align:center;padding:20px">Nenhuma atividade neste dia.</p>';}
+  document.getElementById('wa-summary').innerHTML=sumHtml;
+}
+function waCopy(){
+  const txt=document.getElementById('wa-text-out').textContent;
+  navigator.clipboard.writeText(txt).then(()=>{
+    const btn=document.querySelector('.wa-copy');btn.textContent='✅ Copiado!';
+    setTimeout(()=>btn.textContent='📋 Copiar para WhatsApp',2000);
+  });
+}
+
+
+
+// ═══════════════════════════════════════════
+// ABA INDICADORES — CURVA S INTERATIVA
+// ═══════════════════════════════════════════
+const _IND_DATES_RAW=["2026-05-25", "2026-05-28", "2026-06-04", "2026-06-11", "2026-06-18", "2026-06-25", "2026-07-02", "2026-07-09", "2026-07-16", "2026-07-23", "2026-07-30", "2026-08-06", "2026-08-13", "2026-08-20", "2026-08-27", "2026-09-03", "2026-09-10", "2026-09-17", "2026-09-24", "2026-10-01", "2026-10-08", "2026-10-15", "2026-10-22", "2026-10-29", "2026-11-05", "2026-11-12", "2026-11-19", "2026-11-26", "2026-12-03", "2026-12-10", "2026-12-17", "2026-12-24", "2026-12-31", "2027-01-07", "2027-01-14", "2027-01-21", "2027-01-28", "2027-02-04", "2027-02-11", "2027-02-18", "2027-02-25", "2027-03-04", "2027-03-11", "2027-03-18", "2027-03-25", "2027-04-01", "2027-04-08", "2027-04-15", "2027-04-22", "2027-04-29", "2027-05-06", "2027-05-13", "2027-05-20", "2027-05-27", "2027-06-03", "2027-06-10", "2027-06-17", "2027-06-24", "2027-07-01", "2027-07-08", "2027-07-15", "2027-07-22", "2027-07-29", "2027-08-05", "2027-08-12", "2027-08-19", "2027-08-26", "2027-09-02", "2027-09-09", "2027-09-16", "2027-09-23", "2027-09-30", "2027-10-07", "2027-10-14", "2027-10-21", "2027-10-28", "2027-11-04", "2027-11-11", "2027-11-18", "2027-11-25", "2027-12-02", "2027-12-09", "2027-12-16", "2027-12-23", "2027-12-30", "2028-01-06", "2028-01-13", "2028-01-20", "2028-01-27", "2028-02-03", "2028-02-10", "2028-02-17", "2028-02-24", "2028-03-02", "2028-03-09", "2028-03-16", "2028-03-23", "2028-03-30", "2028-04-06", "2028-04-13", "2028-04-20", "2028-04-27", "2028-05-04", "2028-05-11", "2028-05-18", "2028-05-25", "2028-06-01", "2028-06-08", "2028-06-15", "2028-06-22", "2028-06-29", "2028-07-06", "2028-07-13", "2028-07-20", "2028-07-27", "2028-08-03", "2028-08-10", "2028-08-17", "2028-08-24", "2028-08-31", "2028-09-07", "2028-09-14", "2028-09-21", "2028-09-28", "2028-10-05", "2028-10-12", "2028-10-19", "2028-10-26", "2028-11-02", "2028-11-09", "2028-11-16", "2028-11-23", "2028-11-30", "2028-12-07", "2028-12-14", "2028-12-21", "2028-12-28", "2029-01-04", "2029-01-11", "2029-01-18", "2029-01-25", "2029-02-01", "2029-02-08", "2029-02-15", "2029-02-22", "2029-03-01", "2029-03-08", "2029-03-15", "2029-03-22", "2029-03-29", "2029-04-05", "2029-04-12", "2029-04-19", "2029-04-26", "2029-05-03", "2029-05-10", "2029-05-17", "2029-05-24", "2029-05-31", "2029-06-07", "2029-06-14", "2029-06-21", "2029-06-28", "2029-07-05", "2029-07-12", "2029-07-19", "2029-07-26", "2029-08-02", "2029-08-09", "2029-08-16", "2029-08-23", "2029-08-30", "2029-09-06", "2029-09-13", "2029-09-20", "2029-09-27", "2029-10-04", "2029-10-11", "2029-10-18", "2029-10-25", "2029-11-01", "2029-11-08", "2029-11-15", "2029-11-22", "2029-11-29", "2029-12-06", "2029-12-13", "2029-12-20", "2029-12-27", "2030-01-03", "2030-01-10", "2030-01-17", "2030-01-24", "2030-01-31", "2030-02-07", "2030-02-14", "2030-02-21", "2030-02-28", "2030-03-07", "2030-03-14"];
+const _IND_GP_RAW=[0.153, 0.307, 0.46, 0.613, 0.849, 1.011, 1.264, 1.518, 1.925, 2.252, 2.717, 3.338, 4.153, 5.088, 6.273, 7.247, 8.619, 10.214, 12.288, 14.135, 16.525, 19.095, 21.492, 24.091, 27.05, 30.474, 33.002, 35.333, 37.22, 39.597, 41.419, 43.187, 44.955, 47.516, 50.7, 53.837, 55.928, 57.562, 61.002, 63.731, 65.846, 68.077, 71.516, 74.342, 76.721, 79.027, 81.006, 82.986, 84.965, 86.945, 88.924, 92.203, 93.503, 94.802, 96.102, 97.401, 98.701, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 95.226, 95.226, 95.226, 95.226, 95.226, 95.226, 95.226, 95.226, 95.226, 95.226, 95.226, 95.226, 95.226, 95.226, 95.226, 95.226, 95.226, 95.226, 95.226, 95.226, 95.226, 95.226, 95.226, 95.226, 95.226, 95.226];
+const _IND_GR_RAW=[0.054, 0.222, 0.43, 0.567, 0.882, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153, 1.153];
+const _IND_GP_INC_RAW=[0.153, 0.154, 0.153, 0.153, 0.236, 0.162, 0.253, 0.254, 0.407, 0.327, 0.465, 0.621, 0.815, 0.935, 1.185, 0.974, 1.372, 1.595, 2.074, 1.847, 2.39, 2.57, 2.397, 2.599, 2.959, 3.424, 2.528, 2.331, 1.887, 2.377, 1.822, 1.768, 1.768, 2.561, 3.184, 3.137, 2.091, 1.634, 3.44, 2.729, 2.115, 2.231, 3.439, 2.826, 2.379, 2.306, 1.979, 1.98, 1.979, 1.98, 1.979, 3.279, 1.3, 1.299, 1.3, 1.299, 1.3, 1.299, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -4.774, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
+const _IND_GR_INC_RAW=[0.054, 0.168, 0.208, 0.137, 0.315, 0.271, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
+const _IND_DISC_RAW={"CIVIL": {"prev": [0.473, 0.946, 1.419, 1.892, 2.617, 3.119, 3.9, 4.681, 5.938, 6.947, 8.382, 10.297, 12.81, 15.137, 18.235, 20.68, 23.91, 27.29, 31.702, 35.86, 41.245, 47.097, 52.951, 59.375, 66.905, 74.099, 79.064, 83.031, 85.626, 87.526, 88.25, 88.805, 89.361, 89.966, 90.784, 91.692, 92.599, 93.016, 93.906, 94.629, 95.351, 96.074, 96.796, 97.768, 98.257, 98.506, 98.755, 99.004, 99.253, 99.502, 99.751, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0], "real": [0.168, 0.683, 1.328, 1.748, 2.72, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557, 3.557], "peso_pct": 32.4}, "EMEC": {"prev": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.495, 0.99, 1.486, 1.981, 2.951, 3.922, 4.893, 5.863, 7.309, 8.28, 9.696, 11.112, 13.668, 15.747, 17.778, 19.808, 23.8, 27.316, 30.833, 34.349, 39.995, 47.156, 54.109, 58.594, 62.263, 69.507, 74.955, 79.154, 82.879, 89.071, 94.313, 99.554, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 91.681, 91.681, 91.681, 91.681, 91.681, 91.681, 91.681, 91.681, 91.681, 91.681, 91.681, 91.681, 91.681, 91.681, 91.681, 91.681, 91.681, 91.681, 91.681, 91.681, 91.681, 91.681, 91.681, 91.681, 91.681, 91.681], "real": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "peso_pct": 36.5}, "EL\u00c9TRICA": {"prev": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.667, 3.333, 6.667, 8.333, 11.667, 13.333, 15.0, 15.0, 15.0, 16.833, 18.667, 22.167, 25.667, 29.167, 32.667, 36.167, 39.667, 43.167, 46.667, 50.167, 52.0, 53.833, 59.667, 65.5, 69.5, 76.833, 87.708, 94.583, 98.125, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 80.0, 80.0, 80.0, 80.0, 80.0, 80.0, 80.0, 80.0, 80.0, 80.0, 80.0, 80.0, 80.0, 80.0, 80.0, 80.0, 80.0, 80.0, 80.0, 80.0, 80.0, 80.0, 80.0, 80.0, 80.0, 80.0], "real": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "peso_pct": 8.7}, "COMISSIONAMENTO": {"prev": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 9.524, 19.048, 28.571, 38.095, 47.619, 57.143, 71.429, 76.19, 80.952, 85.714, 90.476, 95.238, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0], "real": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "peso_pct": 19.9}, "ENERGIZA\u00c7\u00c3O": {"prev": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 14.286, 28.571, 42.857, 57.143, 71.429, 85.714, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0], "real": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "peso_pct": 2.5}};
+const _IND_N=Math.min(60,_IND_DATES_RAW.length);
+const IND_DATES=_IND_DATES_RAW.slice(0,_IND_N);
+const IND_GP=_IND_GP_RAW.slice(0,_IND_N);
+const IND_GR=_IND_GR_RAW.slice(0,_IND_N);
+const IND_GP_INC=_IND_GP_INC_RAW.slice(0,_IND_N);
+const IND_GR_INC=_IND_GR_INC_RAW.slice(0,_IND_N);
+const IND_DISC=(()=>{const o={};Object.entries(_IND_DISC_RAW).forEach(([k,v])=>{o[k]={...v,prev:v.prev.slice(0,_IND_N),real:v.real.slice(0,_IND_N)};});return o;})();
+const IND_TODAY=(()=>{const t=new Date();t.setHours(0,0,0,0);let i=0;for(let j=0;j<IND_DATES.length;j++){if(new Date(IND_DATES[j]+'T00:00:00')<=t)i=j;else break;}return i;})();
+// Intervalo da semana atual (ex.: "02/07 a 08/07")
+function indWeekGap(idx){
+  const s=new Date(IND_DATES[idx]+'T00:00:00');
+  const e=new Date(s);e.setDate(s.getDate()+6);
+  const f=d=>String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0');
+  return f(s)+' a '+f(e);
+}
+const IND_DC={
+  'CIVIL':{color:'#0D3FA8',bg:'#C8DAFF',text:'#061A5C'},
+  'EMEC':{color:'#0A6B2E',bg:'#BAEECF',text:'#033A16'},
+  'ELÉTRICA':{color:'#7A4F00',bg:'#FFE490',text:'#3A2200'},
+  'COMISSIONAMENTO':{color:'#5020C0',bg:'#DDD0FF',text:'#200870'},
+  'ENERGIZAÇÃO':{color:'#E8560A',bg:'#FFD0B8',text:'#601800'},
+};
+
+// ── State ──
+let _indActiveDisc='ALL';
+let _indCharts={};
+
+function buildInd(){
+  const el=document.getElementById('ind-inner');
+  const prevHoje=IND_GP[IND_TODAY]||0;
+  const realHoje=IND_GR[IND_TODAY]||0;
+  const desvio=+(realHoje-prevHoje).toFixed(2);
+  const devColor=desvio>=0?'#0A6B2E':'#C0392B';
+  const devBg=desvio>=0?'#E8F5E0':'#FFE8E8';
+  const discOrder=['CIVIL','EMEC','ELÉTRICA','COMISSIONAMENTO','ENERGIZAÇÃO'];
+
+  // Disc pills
+  let discPills='<button onclick="indSetDisc(\'ALL\')" id="ind-pill-ALL" style="'+indPillSty('ALL',true)+'">TODAS</button>';
+  discOrder.forEach(d=>{
+    if(!IND_DISC[d])return;
+    discPills+=`<button onclick="indSetDisc('${d}')" id="ind-pill-${d.replace(/[^a-z]/gi,'_')}" style="${indPillSty(d,false)}" data-disc="${d}">${d}</button>`;
+  });
+
+  // Disc cards
+  let discCards='';
+  discOrder.forEach(d=>{
+    if(!IND_DISC[d])return;
+    const v=IND_DISC[d]; const c=IND_DC[d];
+    const p=+(v.prev[IND_TODAY]||0).toFixed(2);
+    const r=+(v.real[IND_TODAY]||0).toFixed(2);
+    const dev=+(r-p).toFixed(2);
+    const barW=Math.min(100,p);
+    const realW=p>0?Math.min(100,(r/p)*100):0;
+    discCards+=`
+    <div id="ind-card-${d.replace(/[^a-z]/gi,'_')}" onclick="indSetDisc('${d}')" style="background:#fff;border-radius:10px;border:2px solid #E8E9EC;overflow:hidden;flex:1;min-width:160px;cursor:pointer;transition:border-color .15s">
+      <div style="height:4px;background:${c.color}"></div>
+      <div style="padding:12px 14px">
+        <div style="font-size:10px;font-weight:700;color:${c.color};letter-spacing:.5px;margin-bottom:8px">${d}</div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px;gap:4px">
+          <div style="text-align:center;flex:1">
+            <div style="font-size:9px;color:#aaa;font-weight:600;letter-spacing:.5px">PREVISTO</div>
+            <div style="font-size:18px;font-weight:800;color:#333">${p.toFixed(1)}<span style="font-size:10px">%</span></div>
+          </div>
+          <div style="width:1px;background:#F0F1F3"></div>
+          <div style="text-align:center;flex:1">
+            <div style="font-size:9px;color:#aaa;font-weight:600;letter-spacing:.5px">REALIZADO</div>
+            <div style="font-size:18px;font-weight:800;color:${r>=p?'#0A6B2E':'#C0392B'}">${r.toFixed(1)}<span style="font-size:10px">%</span></div>
+          </div>
+          <div style="width:1px;background:#F0F1F3"></div>
+          <div style="text-align:center;flex:1">
+            <div style="font-size:9px;color:#aaa;font-weight:600;letter-spacing:.5px">DESVIO</div>
+            <div style="font-size:14px;font-weight:800;padding:2px 4px;border-radius:6px;background:${dev>=0?'#E8F5E0':'#FFE8E8'};color:${dev>=0?'#0A6B2E':'#C0392B'};margin-top:2px">${dev>=0?'+':''}${dev.toFixed(1)}%</div>
+          </div>
+        </div>
+        <div style="background:#F0F2F5;border-radius:4px;height:6px;overflow:hidden;margin-bottom:4px">
+          <div style="position:relative;width:${barW}%;height:100%;background:${c.color}33;border-radius:4px">
+            <div style="position:absolute;left:0;top:0;width:${realW}%;height:100%;background:${c.color};border-radius:4px"></div>
+          </div>
+        </div>
+        <div style="font-size:9px;color:#bbb">Peso: ${v.peso_pct}% do total</div>
+      </div>
+    </div>`;
+  });
+
+  el.innerHTML=`
+  <!-- Header -->
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:18px">
+    <div>
+      <div style="font-size:13px;font-weight:700;color:#0D0D0C">INDICADORES DE AVANÇO FÍSICO</div>
+      <div style="font-size:11px;color:#aaa;margin-top:2px">SE Candiota 2 — Chimarrão · Base: Cronograma LB · Semana ${IND_TODAY+1} (${IND_DATES[IND_TODAY]})</div>
+    </div>
+    <button class="print-btn" onclick="window.print()">&#128424; Imprimir A3</button>
+  </div>
+
+  <!-- KPIs Globais -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px">
+    <div style="background:#fff;border-radius:10px;border:1.5px solid #E8E9EC;padding:14px 16px">
+      <div style="font-size:9px;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Previsto Acum.</div>
+      <div style="font-size:32px;font-weight:800;color:#0D3FA8;letter-spacing:-1px">${prevHoje.toFixed(2)}<span style="font-size:14px">%</span></div>
+    </div>
+    <div style="background:#fff;border-radius:10px;border:1.5px solid ${realHoje>=prevHoje?'#0A6B2E':'#C0392B'};padding:14px 16px">
+      <div style="font-size:9px;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Realizado Acum.</div>
+      <div style="font-size:32px;font-weight:800;color:${realHoje>=prevHoje?'#0A6B2E':'#C0392B'};letter-spacing:-1px">${realHoje.toFixed(2)}<span style="font-size:14px">%</span></div>
+    </div>
+    <div style="background:${devBg};border-radius:10px;border:1.5px solid ${devColor};padding:14px 16px">
+      <div style="font-size:9px;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Desvio</div>
+      <div style="font-size:32px;font-weight:800;color:${devColor};letter-spacing:-1px">${desvio>=0?'+':''}${desvio.toFixed(2)}<span style="font-size:14px">%</span></div>
+      <div style="font-size:10px;color:${devColor};font-weight:600">${desvio>=0?'✅ Adiantado':'⚠️ Atrasado'}</div>
+    </div>
+    <div style="background:#fff;border-radius:10px;border:1.5px solid #E8E9EC;padding:14px 16px">
+      <div style="font-size:9px;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Semana Atual</div>
+      <div style="font-size:32px;font-weight:800;color:#333;letter-spacing:-1px">${IND_TODAY+1}<span style="font-size:14px"> / ${IND_DATES.length}</span></div>
+      <div style="font-size:10px;color:#888">${(((IND_TODAY+1)/IND_DATES.length)*100).toFixed(0)}% do período</div>
+    </div>
+  </div>
+
+  <!-- Filtro Disciplina -->
+  <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;align-items:center">
+    <span style="font-size:10px;font-weight:700;color:#888;letter-spacing:.5px">FILTRAR:</span>
+    ${discPills}
+  </div>
+
+  <!-- Cards Disciplina -->
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px">${discCards}</div>
+
+  <!-- Curva S Principal -->
+  <div style="background:#fff;border-radius:12px;border:1.5px solid #E8E9EC;padding:20px;margin-bottom:16px;position:relative">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;flex-wrap:wrap;gap:8px">
+      <div>
+        <div style="font-size:13px;font-weight:700;color:#0D0D0C" id="ind-chart-title">CURVA S — AVANÇO FÍSICO GLOBAL</div>
+        <div style="font-size:11px;color:#aaa;margin-top:1px" id="ind-chart-sub">Previsto vs Realizado acumulado · clique e arraste para zoom · scroll para navegar</div>
+      </div>
+      <div style="display:flex;gap:14px;font-size:11px;align-items:center;flex-wrap:wrap">
+        <span style="display:flex;align-items:center;gap:5px"><span style="display:inline-block;width:24px;height:3px;background:#0D3FA8;border-radius:2px;border:1px dashed #0D3FA8"></span><span style="color:#555">Previsto</span></span>
+        <span style="display:flex;align-items:center;gap:5px"><span style="display:inline-block;width:24px;height:3px;background:#E8560A;border-radius:2px"></span><span style="color:#555">Realizado</span></span>
+        <button id="ind-zoom-reset" onclick="indZoomReset()" style="padding:3px 10px;border:1px solid #ddd;border-radius:12px;font-size:10px;font-weight:600;cursor:pointer;background:#F8F9FB;color:#555">&#8634; Reset zoom</button>
+      </div>
+    </div>
+    <div style="position:relative">
+      <canvas id="ind-canvas-main" style="width:100%;cursor:crosshair;display:block"></canvas>
+      <div id="ind-tooltip" style="position:absolute;background:rgba(13,13,12,.92);color:#fff;padding:10px 14px;border-radius:8px;font-size:12px;pointer-events:none;display:none;z-index:10;min-width:180px;box-shadow:0 4px 16px rgba(0,0,0,.3)"></div>
+    </div>
+  </div>
+
+  <!-- Gráfico de Barras Avanço Semanal -->
+  <div style="background:#fff;border-radius:12px;border:1.5px solid #E8E9EC;padding:20px;margin-bottom:16px">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;flex-wrap:wrap;gap:8px">
+      <div>
+        <div style="font-size:13px;font-weight:700;color:#0D0D0C" id="ind-bar-title">AVANÇO SEMANAL</div>
+        <div style="font-size:11px;color:#aaa;margin-top:1px">Avanço físico por semana (não acumulado) · semana atual ao centro (2 anteriores · 2 seguintes) · passe o mouse para detalhes</div>
+      </div>
+      <div style="display:flex;gap:14px;font-size:11px;align-items:center;flex-wrap:wrap">
+        <span style="display:flex;align-items:center;gap:5px;padding:3px 10px;background:#FFF1E8;border:1px solid #E8560A;border-radius:12px"><span style="display:inline-block;width:8px;height:8px;background:#E8560A;border-radius:50%"></span><span style="color:#C8440A;font-weight:700">Semana atual: ${indWeekGap(IND_TODAY)}</span></span>
+        <span style="display:flex;align-items:center;gap:5px"><span id="ind-bar-lg-prev" style="display:inline-block;width:12px;height:12px;background:#0D3FA855;border-radius:3px"></span><span style="color:#555">Previsto</span></span>
+        <span style="display:flex;align-items:center;gap:5px"><span style="display:inline-block;width:12px;height:12px;background:#0A6B2E;border-radius:3px"></span><span style="color:#555">Realizado ≥ meta</span></span>
+        <span style="display:flex;align-items:center;gap:5px"><span style="display:inline-block;width:12px;height:12px;background:#C0392B;border-radius:3px"></span><span style="color:#555">Realizado &lt; meta</span></span>
+      </div>
+    </div>
+    <div style="position:relative">
+      <canvas id="ind-canvas-bar" style="width:100%;display:block"></canvas>
+      <div id="ind-tooltip-bar" style="position:absolute;background:rgba(13,13,12,.92);color:#fff;padding:10px 14px;border-radius:8px;font-size:12px;pointer-events:none;display:none;z-index:10;min-width:180px;box-shadow:0 4px 16px rgba(0,0,0,.3)"></div>
+    </div>
+  </div>`;
+
+  // Init charts after paint
+  requestAnimationFrame(()=>{
+    _indCharts={};
+    indInitMain();
+    indInitBar();
+  });
+}
+
+function indPillSty(d, active){
+  if(d==='ALL'){
+    return `padding:5px 14px;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;border:2px solid ${active?'#1A1A18':'#ccc'};background:${active?'#1A1A18':'#fff'};color:${active?'#fff':'#555'};transition:all .15s`;
+  }
+  const c=IND_DC[d]||{color:'#666'};
+  const isActive=_indActiveDisc===d;
+  return `padding:5px 14px;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;border:2px solid ${isActive?c.color:'rgba('+hexToRgb(c.color)+',0.4)'};background:${isActive?c.color:'#fff'};color:${isActive?'#fff':c.color};transition:all .15s`;
+}
+function hexToRgb(hex){
+  const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
+  return r+','+g+','+b;
+}
+
+function indSetDisc(d){
+  _indActiveDisc=d;
+  // Update pill styles
+  const discOrder=['CIVIL','EMEC','ELÉTRICA','COMISSIONAMENTO','ENERGIZAÇÃO'];
+  const allPill=document.getElementById('ind-pill-ALL');
+  if(allPill) allPill.style.cssText=indPillSty('ALL',d==='ALL');
+  discOrder.forEach(disc=>{
+    const el=document.getElementById('ind-pill-'+disc.replace(/[^a-z]/gi,'_'));
+    if(el) el.style.cssText=indPillSty(disc,false);
+  });
+  // Update card borders
+  discOrder.forEach(disc=>{
+    const card=document.getElementById('ind-card-'+disc.replace(/[^a-z]/gi,'_'));
+    if(card) card.style.borderColor=(_indActiveDisc===disc)?IND_DC[disc].color:'#E8E9EC';
+  });
+  // Redraw main chart
+  const title=document.getElementById('ind-chart-title');
+  const sub=document.getElementById('ind-chart-sub');
+  const barTitle=document.getElementById('ind-bar-title');
+  if(d==='ALL'){
+    if(title) title.textContent='CURVA S — AVANÇO FÍSICO GLOBAL';
+    if(barTitle) barTitle.textContent='AVANÇO SEMANAL';
+    indDrawMain(IND_DATES,IND_GP,IND_GR,'#0D3FA8','#E8560A');
+    indDrawBar(IND_DATES,IND_GP_INC,IND_GR_INC,'#0D3FA8','#E8560A');
+  } else {
+    const v=IND_DISC[d]; const c=IND_DC[d];
+    if(title) title.textContent='CURVA S — '+d;
+    if(barTitle) barTitle.textContent='AVANÇO SEMANAL — '+d;
+    const inc_p=v.prev.map((x,i)=>+(x-(i>0?v.prev[i-1]:0)).toFixed(3));
+    const inc_r=v.real.map((x,i)=>+(x-(i>0?v.real[i-1]:0)).toFixed(3));
+    indDrawMain(IND_DATES,v.prev,v.real,c.color,'#E8560A');
+    indDrawBar(IND_DATES,inc_p,inc_r,c.color,'#E8560A');
+  }
+}
+
+// ── Chart engine ──
+let _indZoom={start:0,end:0};
+
+function indInitMain(){
+  _indZoom={start:0,end:IND_DATES.length-1};
+  indDrawMain(IND_DATES,IND_GP,IND_GR,'#0D3FA8','#E8560A');
+  const c=document.getElementById('ind-canvas-main');
+  if(!c)return;
+  c.addEventListener('mousemove',e=>indMainHover(e));
+  c.addEventListener('mouseleave',()=>{document.getElementById('ind-tooltip').style.display='none';});
+  c.addEventListener('wheel',e=>{e.preventDefault();const d=e.deltaY>0?1:-1;indZoomShift(d*3);indSetDisc(_indActiveDisc);},{passive:false});
+  // Drag to zoom
+  let drag=null;
+  c.addEventListener('mousedown',e=>{drag={x:e.offsetX,w:c.offsetWidth,z:{..._indZoom}}});
+  c.addEventListener('mouseup',e=>{
+    if(!drag)return;
+    const dx=e.offsetX-drag.x;
+    const N2=_indZoom.end-_indZoom.start;
+    if(Math.abs(dx)>10){
+      const shift=Math.round((-dx/drag.w)*N2);
+      _indZoom.start=Math.max(0,drag.z.start+shift);
+      _indZoom.end=Math.min(IND_DATES.length-1,drag.z.end+shift);
+      indSetDisc(_indActiveDisc);
+    }
+    drag=null;
+  });
+}
+function indZoomShift(delta){
+  const n=IND_DATES.length;
+  const w=_indZoom.end-_indZoom.start;
+  _indZoom.start=Math.max(0,Math.min(n-w-1,_indZoom.start+delta));
+  _indZoom.end=_indZoom.start+w;
+}
+function indZoomReset(){
+  _indZoom={start:0,end:IND_DATES.length-1};
+  indSetDisc(_indActiveDisc);
+}
+
+function indDrawMain(allDates, prevData, realData, prevColor, realColor){
+  const c=document.getElementById('ind-canvas-main');
+  if(!c)return;
+  const DPR=window.devicePixelRatio||1;
+  const W=c.parentElement.offsetWidth||800;
+  const H=320;
+  c.width=W*DPR; c.height=H*DPR; c.style.width=W+'px'; c.style.height=H+'px';
+  const ctx=c.getContext('2d'); ctx.scale(DPR,DPR);
+  const pad={l:50,r:20,t:16,b:40};
+  const cw=W-pad.l-pad.r, ch=H-pad.t-pad.b;
+  const s=_indZoom.start, e2=_indZoom.end;
+  const dates=allDates.slice(s,e2+1);
+  const prev=prevData.slice(s,e2+1);
+  const real=realData.slice(s,e2+1);
+  const n=dates.length;
+  const maxV=Math.ceil(Math.max(...prev.filter(x=>x!=null),...real.filter(x=>x!=null),1)/10)*10;
+
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+
+  // Grid
+  const yTicks=5;
+  for(let i=0;i<=yTicks;i++){
+    const v=(maxV/yTicks)*i;
+    const y=pad.t+ch-(v/maxV)*ch;
+    ctx.strokeStyle=i===0?'#E0E2E6':'#F0F2F5'; ctx.lineWidth=i===0?1.5:1;
+    ctx.beginPath(); ctx.moveTo(pad.l,y); ctx.lineTo(pad.l+cw,y); ctx.stroke();
+    ctx.fillStyle='#aaa'; ctx.font=`10px Inter,sans-serif`; ctx.textAlign='right';
+    ctx.fillText(v.toFixed(v<10?1:0)+'%', pad.l-5, y+3.5);
+  }
+
+  // Today line
+  const todayLocal=IND_TODAY-s;
+  if(todayLocal>=0&&todayLocal<n){
+    const tx=pad.l+(todayLocal/(n-1))*cw;
+    ctx.strokeStyle='#E8560A'; ctx.lineWidth=1.5; ctx.setLineDash([4,3]);
+    ctx.beginPath(); ctx.moveTo(tx,pad.t); ctx.lineTo(tx,pad.t+ch); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle='#E8560A'; ctx.font='bold 9px Inter,sans-serif'; ctx.textAlign='center';
+    ctx.fillText('HOJE',tx,pad.t+9);
+  }
+
+  // X axis labels
+  const step=Math.max(1,Math.ceil(n/12));
+  ctx.fillStyle='#bbb'; ctx.font='9px Inter,sans-serif'; ctx.textAlign='center';
+  for(let i=0;i<n;i+=step){
+    const x=pad.l+(i/(Math.max(n-1,1)))*cw;
+    const [,m,d]=dates[i].split('-');
+    ctx.fillText(`${d}/${m}`,x,H-pad.b+14);
+    ctx.strokeStyle='#F0F2F5'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(x,pad.t); ctx.lineTo(x,pad.t+ch); ctx.stroke();
+  }
+
+  // Area fill under prev
+  ctx.beginPath();
+  let started=false;
+  prev.forEach((v,i)=>{
+    if(v==null)return;
+    const x=pad.l+(i/(Math.max(n-1,1)))*cw, y=pad.t+ch-(v/maxV)*ch;
+    if(!started){ctx.moveTo(x,y);started=true;}else ctx.lineTo(x,y);
+  });
+  if(started){ctx.lineTo(pad.l+cw,pad.t+ch);ctx.lineTo(pad.l,pad.t+ch);ctx.closePath();};
+  ctx.fillStyle=prevColor+'18'; ctx.fill();
+
+  // Prev line (dashed)
+  ctx.strokeStyle=prevColor; ctx.lineWidth=2; ctx.setLineDash([6,4]);
+  ctx.beginPath(); started=false;
+  prev.forEach((v,i)=>{if(v==null)return;const x=pad.l+(i/(Math.max(n-1,1)))*cw,y=pad.t+ch-(v/maxV)*ch;if(!started){ctx.moveTo(x,y);started=true;}else ctx.lineTo(x,y);});
+  ctx.stroke(); ctx.setLineDash([]);
+
+  // Real line (solid) — só até a data de hoje
+  ctx.strokeStyle=realColor; ctx.lineWidth=2.5;
+  ctx.beginPath(); started=false;
+  real.forEach((v,i)=>{if(v==null||(s+i)>IND_TODAY)return;const x=pad.l+(i/(Math.max(n-1,1)))*cw,y=pad.t+ch-(v/maxV)*ch;if(!started){ctx.moveTo(x,y);started=true;}else ctx.lineTo(x,y);});
+  ctx.stroke();
+
+  // Dots (previsto = fim da curva; realizado = até hoje)
+  const realCapLocal=IND_TODAY-s;
+  [[prev,prevColor,n-1],[real,realColor,realCapLocal]].forEach(([data,col,capIdx])=>{
+    const cap=Math.min(capIdx,data.length-1);
+    let li=-1;
+    for(let i=0;i<=cap;i++){if(data[i]!=null&&data[i]>0)li=i;}
+    if(li<0)return;
+    const x=pad.l+(li/(Math.max(n-1,1)))*cw, y=pad.t+ch-(data[li]/maxV)*ch;
+    ctx.beginPath(); ctx.arc(x,y,5,0,2*Math.PI);
+    ctx.fillStyle=col; ctx.fill();
+    ctx.strokeStyle='#fff'; ctx.lineWidth=2; ctx.stroke();
+    ctx.fillStyle=col; ctx.font='bold 10px Inter,sans-serif'; ctx.textAlign='center';
+    ctx.fillText(data[li].toFixed(1)+'%',x,y-9);
+  });
+
+  // Store chart params for tooltip
+  _indCharts['main']={pad,cw,ch,n,s,dates,prev,real,prevColor,realColor,maxV,W,H};
+}
+
+function indMainHover(e){
+  const ch=_indCharts['main'];if(!ch)return;
+  const tt=document.getElementById('ind-tooltip');if(!tt)return;
+  const x=e.offsetX-ch.pad.l;
+  const idx=Math.round((x/ch.cw)*(ch.n-1));
+  if(idx<0||idx>=ch.n){tt.style.display='none';return;}
+  const p=ch.prev[idx],r=(ch.s+idx)>IND_TODAY?null:ch.real[idx];
+  const dev=p!=null&&r!=null?+(r-p).toFixed(2):null;
+  const devStr=dev!=null?(dev>=0?`<span style="color:#6EE08A">+${dev.toFixed(2)}%</span>`:`<span style="color:#FF8080">${dev.toFixed(2)}%</span>`):'—';
+  tt.innerHTML=`<div style="font-weight:700;margin-bottom:6px;color:#ddd;font-size:11px">${ch.dates[idx]}</div>
+    <div style="display:flex;gap:8px;align-items:center;margin-bottom:3px"><span style="width:10px;height:3px;background:${ch.prevColor};display:inline-block;border-radius:2px"></span>Previsto: <b>${p!=null?p.toFixed(2)+'%':'—'}</b></div>
+    <div style="display:flex;gap:8px;align-items:center;margin-bottom:3px"><span style="width:10px;height:3px;background:${ch.realColor};display:inline-block;border-radius:2px"></span>Realizado: <b>${r!=null?r.toFixed(2)+'%':'—'}</b></div>
+    <div style="border-top:1px solid rgba(255,255,255,.15);margin-top:5px;padding-top:5px">Desvio: ${devStr}</div>`;
+  const cx=ch.pad.l+(idx/(ch.n-1))*ch.cw;
+  tt.style.display='block';
+  const ttW=tt.offsetWidth||200; tt.style.left=Math.max(4,e.offsetX-ttW-16)+'px'; tt.style.top=Math.max(4,e.offsetY-20)+'px';
+  // Crosshair
+  indDrawMain(IND_DATES,_indActiveDisc==='ALL'?IND_GP:IND_DISC[_indActiveDisc].prev,
+    _indActiveDisc==='ALL'?IND_GR:IND_DISC[_indActiveDisc].real,
+    _indActiveDisc==='ALL'?'#0D3FA8':IND_DC[_indActiveDisc].color,'#E8560A');
+  const c2=document.getElementById('ind-canvas-main');const ctx2=c2.getContext('2d');
+  const DPR=window.devicePixelRatio||1; ctx2.scale(DPR,DPR);
+  ctx2.strokeStyle='rgba(0,0,0,.15)';ctx2.lineWidth=1;ctx2.setLineDash([3,3]);
+  ctx2.beginPath();ctx2.moveTo(ch.pad.l+cx-ch.pad.l,ch.pad.t);ctx2.lineTo(ch.pad.l+cx-ch.pad.l,ch.pad.t+ch.ch);ctx2.stroke();
+  ctx2.setLineDash([]);
+}
+
+function indInitBar(){
+  indDrawBar(IND_DATES,IND_GP_INC,IND_GR_INC,'#0D3FA8','#E8560A');
+  const c=document.getElementById('ind-canvas-bar');
+  if(!c)return;
+  c.style.cursor='crosshair';
+  c.addEventListener('mousemove',e=>indBarHover(e));
+  c.addEventListener('mouseleave',()=>{const tt=document.getElementById('ind-tooltip-bar');if(tt)tt.style.display='none';});
+}
+function indDrawBar(allDates,prevInc,realInc,prevColor,realColor){
+  const c=document.getElementById('ind-canvas-bar');if(!c)return;
+  const DPR=window.devicePixelRatio||1;
+  const W=c.parentElement.offsetWidth||800;
+  const H=320;
+  c.width=W*DPR;c.height=H*DPR;c.style.width=W+'px';c.style.height=H+'px';
+  const ctx=c.getContext('2d');ctx.scale(DPR,DPR);
+  // Janela fixa de 5 semanas: semana atual no meio, 2 anteriores e 2 seguintes
+  const BAR_WEEKS=5;
+  let s=Math.max(0,IND_TODAY-2);
+  let e2=Math.min(allDates.length-1,s+BAR_WEEKS-1);
+  s=Math.max(0,e2-BAR_WEEKS+1);
+  const dates=allDates.slice(s,e2+1);
+  const prev=prevInc.slice(s,e2+1);
+  const real=realInc.slice(s,e2+1);
+  const n=dates.length;
+  const pad={l:50,r:20,t:10,b:30};
+  const cw=W-pad.l-pad.r, ch=H-pad.t-pad.b;
+  const maxV=Math.max(...prev,...real,0.1)*1.2;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#fff';ctx.fillRect(0,0,W,H);
+  // Y axis
+  [0,maxV/2,maxV].forEach(v=>{
+    const y=pad.t+ch-(v/maxV)*ch;
+    ctx.strokeStyle='#F0F2F5';ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(pad.l+cw,y);ctx.stroke();
+    ctx.fillStyle='#bbb';ctx.font='9px Inter,sans-serif';ctx.textAlign='right';
+    ctx.fillText(v.toFixed(2)+'%',pad.l-4,y+3);
+  });
+  const bw=Math.max(2,(cw/n)*0.38);
+  const step=Math.max(1,Math.ceil(n/14));
+  prev.forEach((v,i)=>{
+    if(v==null)return;
+    const x=pad.l+(i/(Math.max(n-1,1)))*cw;
+    const hy=(v/maxV)*ch;
+    // Prev bar
+    ctx.fillStyle=prevColor+'55';
+    ctx.fillRect(x-bw*1.1,pad.t+ch-hy,bw,hy);
+    // Real bar
+    const rv=real[i]||0;
+    const rh=(rv/maxV)*ch;
+    ctx.fillStyle=rv>=v?'#0A6B2E':'#C0392B';
+    ctx.globalAlpha=0.85;
+    ctx.fillRect(x+bw*0.1,pad.t+ch-rh,bw,rh);
+    ctx.globalAlpha=1;
+    // X labels — intervalo da semana (ex.: 02/07 - 08/07)
+    if(i%step===0){
+      const ws=new Date(dates[i]+'T00:00:00');
+      const we=new Date(ws);we.setDate(ws.getDate()+6);
+      const fdm=dt=>String(dt.getDate()).padStart(2,'0')+'/'+String(dt.getMonth()+1).padStart(2,'0');
+      const isCur=(s+i)===IND_TODAY;
+      ctx.fillStyle=isCur?'#E8560A':'#888';ctx.font=(isCur?'bold ':'')+'9px Inter,sans-serif';ctx.textAlign='center';
+      ctx.fillText(`${fdm(ws)} - ${fdm(we)}`,x,H-pad.b+12);
+    }
+  });
+  // Today marker
+  const ti=IND_TODAY-s;
+  if(ti>=0&&ti<n){
+    const tx=pad.l+(ti/(Math.max(n-1,1)))*cw;
+    ctx.strokeStyle='#E8560A';ctx.lineWidth=1.5;ctx.setLineDash([3,2]);
+    ctx.beginPath();ctx.moveTo(tx,pad.t);ctx.lineTo(tx,pad.t+ch);ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle='#E8560A';ctx.font='bold 9px Inter,sans-serif';ctx.textAlign='center';
+    ctx.fillText('HOJE',tx,pad.t+9);
+  }
+  // Atualiza swatch "Previsto" da legenda conforme a disciplina
+  const lg=document.getElementById('ind-bar-lg-prev');
+  if(lg) lg.style.background=prevColor+'55';
+  // Guarda parâmetros para tooltip
+  _indCharts['bar']={pad,cw,ch,n,s,dates,prev,real,prevColor,maxV,W,H};
+}
+
+function indBarHover(e){
+  const ch=_indCharts['bar'];if(!ch)return;
+  const tt=document.getElementById('ind-tooltip-bar');if(!tt)return;
+  const x=e.offsetX-ch.pad.l;
+  const idx=Math.round((x/ch.cw)*(Math.max(ch.n-1,1)));
+  if(idx<0||idx>=ch.n){tt.style.display='none';return;}
+  const p=ch.prev[idx],r=ch.real[idx];
+  const beyond=(ch.s+idx)>IND_TODAY;
+  const rShown=beyond?null:r;
+  const dev=p!=null&&rShown!=null?+(rShown-p).toFixed(2):null;
+  const devStr=dev!=null?(dev>=0?`<span style="color:#6EE08A">+${dev.toFixed(2)}%</span>`:`<span style="color:#FF8080">${dev.toFixed(2)}%</span>`):'—';
+  const _ws=new Date(ch.dates[idx]+'T00:00:00');const _we=new Date(_ws);_we.setDate(_ws.getDate()+6);
+  const _fdm=dt=>String(dt.getDate()).padStart(2,'0')+'/'+String(dt.getMonth()+1).padStart(2,'0');
+  tt.innerHTML=`<div style="font-weight:700;margin-bottom:6px;color:#ddd;font-size:11px">Semana ${_fdm(_ws)} - ${_fdm(_we)}${beyond?' · previsão':''}</div>
+    <div style="display:flex;gap:8px;align-items:center;margin-bottom:3px"><span style="width:10px;height:10px;background:${ch.prevColor}55;display:inline-block;border-radius:2px"></span>Previsto: <b>${p!=null?p.toFixed(2)+'%':'—'}</b></div>
+    <div style="display:flex;gap:8px;align-items:center;margin-bottom:3px"><span style="width:10px;height:10px;background:${rShown!=null&&p!=null&&rShown>=p?'#0A6B2E':'#C0392B'};display:inline-block;border-radius:2px"></span>Realizado: <b>${rShown!=null?rShown.toFixed(2)+'%':'—'}</b></div>
+    <div style="border-top:1px solid rgba(255,255,255,.15);margin-top:5px;padding-top:5px">Desvio: ${devStr}</div>`;
+  tt.style.display='block';
+  const ttW=tt.offsetWidth||190;
+  tt.style.left=Math.max(4,Math.min(ch.W-ttW-4,e.offsetX+12))+'px';
+  tt.style.top=Math.max(4,e.offsetY-20)+'px';
+}
+
+function indInitMini(disc){
+  const v=IND_DISC[disc];if(!v)return;
+  const c=IND_DC[disc];
+  const cid='ind-canvas-'+disc.replace(/[^a-z]/gi,'_');
+  const ttid='ind-tt-'+disc.replace(/[^a-z]/gi,'_');
+  const canvas=document.getElementById(cid);if(!canvas)return;
+  const DPR=window.devicePixelRatio||1;
+  const W=canvas.parentElement.offsetWidth||300;
+  const H=200;
+  canvas.width=W*DPR;canvas.height=H*DPR;canvas.style.width=W+'px';canvas.style.height=H+'px';
+  const ctx=canvas.getContext('2d');ctx.scale(DPR,DPR);
+  const pad={l:38,r:10,t:10,b:24};
+  const cw=W-pad.l-pad.r, ch=H-pad.t-pad.b;
+  // Trim to meaningful range
+  const showN=v.prev.length;
+  const prev=v.prev.slice(0,showN),real=v.real.slice(0,showN);
+  const n=showN;
+  const maxV=Math.ceil(Math.max(...prev,...real,1)/10)*10;
+  ctx.clearRect(0,0,W,H);ctx.fillStyle='#fff';ctx.fillRect(0,0,W,H);
+  // Grid
+  [0,maxV/2,maxV].forEach(yv=>{
+    const y=pad.t+ch-(yv/maxV)*ch;
+    ctx.strokeStyle='#F5F5F5';ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(pad.l+cw,y);ctx.stroke();
+    ctx.fillStyle='#ccc';ctx.font='8px Inter,sans-serif';ctx.textAlign='right';
+    ctx.fillText(yv.toFixed(0)+'%',pad.l-3,y+3);
+  });
+  // Today
+  if(IND_TODAY<n){
+    const tx=pad.l+(IND_TODAY/(n-1))*cw;
+    ctx.strokeStyle='#E8560A55';ctx.lineWidth=1;ctx.setLineDash([3,2]);
+    ctx.beginPath();ctx.moveTo(tx,pad.t);ctx.lineTo(tx,pad.t+ch);ctx.stroke();ctx.setLineDash([]);
+  }
+  // Area
+  ctx.beginPath();let st=false;
+  prev.forEach((val,i)=>{if(val==null)return;const x=pad.l+(i/(n-1))*cw,y=pad.t+ch-(val/maxV)*ch;if(!st){ctx.moveTo(x,y);st=true;}else ctx.lineTo(x,y);});
+  if(st){ctx.lineTo(pad.l+cw,pad.t+ch);ctx.lineTo(pad.l,pad.t+ch);ctx.closePath();}
+  ctx.fillStyle=c.color+'15';ctx.fill();
+  // Prev
+  ctx.strokeStyle=c.color;ctx.lineWidth=1.5;ctx.setLineDash([4,3]);
+  ctx.beginPath();st=false;
+  prev.forEach((val,i)=>{if(val==null)return;const x=pad.l+(i/(n-1))*cw,y=pad.t+ch-(val/maxV)*ch;if(!st){ctx.moveTo(x,y);st=true;}else ctx.lineTo(x,y);});
+  ctx.stroke();ctx.setLineDash([]);
+  // Real
+  ctx.strokeStyle='#E8560A';ctx.lineWidth=2;
+  ctx.beginPath();st=false;
+  real.forEach((val,i)=>{if(val==null||val===0&&i>IND_TODAY+1)return;const x=pad.l+(i/(n-1))*cw,y=pad.t+ch-(val/maxV)*ch;if(!st){ctx.moveTo(x,y);st=true;}else ctx.lineTo(x,y);});
+  ctx.stroke();
+  // X labels
+  const step=Math.max(1,Math.ceil(n/6));
+  ctx.fillStyle='#ccc';ctx.font='8px Inter,sans-serif';ctx.textAlign='center';
+  for(let i=0;i<n;i+=step){
+    const x=pad.l+(i/(n-1))*cw;
+    const [,m,d]=IND_DATES[i].split('-');
+    ctx.fillText(`${d}/${m}`,x,H-pad.b+12);
+  }
+  // Hover
+  canvas.onmousemove=e=>{
+    const tt=document.getElementById(ttid);if(!tt)return;
+    const x=e.offsetX-pad.l;
+    const idx=Math.round((x/cw)*(n-1));
+    if(idx<0||idx>=n){tt.style.display='none';return;}
+    const p=prev[idx],r=real[idx];
+    tt.innerHTML=`<b>${IND_DATES[idx]}</b><br>Prev: ${p!=null?p.toFixed(1)+'%':'—'}<br>Real: ${r!=null?r.toFixed(1)+'%':'—'}`;
+    tt.style.display='block';
+    tt.style.left=(e.offsetX+8)+'px';tt.style.top=(e.offsetY-8)+'px';
+  };
+  canvas.onmouseleave=()=>{const tt=document.getElementById(ttid);if(tt)tt.style.display='none';};
+}
+
+// ═══════════════════════════════════════════
+// MODAL
+// ═══════════════════════════════════════════
+function openModal(title,body){
+  document.getElementById('modal-title').textContent=title;
+  document.getElementById('modal-body').innerHTML=body;
+  document.getElementById('modal-bg').classList.add('open');
+}
+
+// ═══════════════════════════════════════════
+// TAB NAVIGATION
+// ═══════════════════════════════════════════
+let activeTab='disciplinas';
+function swTab(id,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  activeTab=id;
+  if(id==='timeline'&&!tlBuilt){tlBuilt=true;buildTimeline();}
+  if(id==='semanas'){buildSemanas();}
+  if(id==='datatermino'){buildDT();}
+  if(id==='iniciotermino'&&!itBuilt){itBuilt=true;buildIT();}
+  if(id==='restricoes'){buildRest();}
+  if(id==='whatsapp'){buildWA();}
+  if(id==='indicadores'){buildInd();}
+}
+
+// ═══════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════
+buildKPI();
+buildDisc();
+</script>
+</body>
+</html>
